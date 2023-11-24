@@ -1,5 +1,5 @@
+#!/bin/bash
 
-```shell
 app_name="MyTool CLeaner"
 main_module="com.mytool.cleaner"
 main_class="com.mytool.cleaner.CleanerApp"
@@ -15,6 +15,4 @@ jpackage --type ${app_type} \
          --module ${main_module}/${main_class} \
          --runtime-image ./target/${runtime_image} \
          --dest ./target/
-```
-
 
