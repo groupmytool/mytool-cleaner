@@ -20,26 +20,18 @@ public class MainLayout {
 
     BorderPane borderPane = new BorderPane();
 
-    Label topLabel = new Label("Top");
-    BorderPane.setAlignment(topLabel, Pos.CENTER);
-    borderPane.setTop(topLabel);
-
-    Label bottomLabel = new Label("Bottom");
-    BorderPane.setAlignment(bottomLabel, Pos.CENTER);
-    borderPane.setBottom(bottomLabel);
-
     VBox menu = LeftMenu.getMenu();
     BorderPane.setAlignment(menu, Pos.CENTER);
     BorderPane.setMargin(menu, new Insets(5));
     borderPane.setLeft(menu);
 
-    Label rightLabel = new Label("Right");
-    BorderPane.setAlignment(rightLabel, Pos.CENTER);
-    borderPane.setRight(rightLabel);
-
     Label centerLabel = new Label("Center");
     BorderPane.setAlignment(centerLabel, Pos.CENTER);
     borderPane.setCenter(centerLabel);
+
+    Label rightLabel = new Label("Right");
+    BorderPane.setAlignment(rightLabel, Pos.CENTER);
+    borderPane.setRight(rightLabel);
 
     return new Scene(borderPane, minWidth, minHeight);
 
