@@ -1,4 +1,4 @@
-package com.mytool.cleaner.layout;
+package com.mytool.cleaner.layout.middle;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -15,7 +15,10 @@ public class MiddleContent {
   public static final ScrollPane MIDDLE_SCROLLABLE_LIST = new ScrollPane(MIDDLE_GROUP_LIST);
 
   static {
+    // 宽高自适应
     MIDDLE_SCROLLABLE_LIST.setFitToWidth(true);
+    MIDDLE_SCROLLABLE_LIST.setFitToHeight(true);
+    // 滚动条策略：需要时显示
     MIDDLE_SCROLLABLE_LIST.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
     ObservableList<Node> groupListChildren = MIDDLE_GROUP_LIST.getChildren();
