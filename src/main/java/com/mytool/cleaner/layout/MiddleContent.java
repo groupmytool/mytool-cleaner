@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 import java.io.File;
 
 public class MiddleContent {
-  public static final VBox MIDDLE_GROUP_LIST = new VBox(10);
+  private static final VBox MIDDLE_GROUP_LIST = new VBox(10);
   public static final ScrollPane MIDDLE_SCROLLABLE_LIST = new ScrollPane(MIDDLE_GROUP_LIST);
 
   static {
@@ -25,12 +25,12 @@ public class MiddleContent {
     if (files != null) {
       for (File file : files) {
         if (file.isDirectory() && file.getName().endsWith(".app")) {
-          Button appButton = new Button();
+          Button appNode = new Button();
           BorderPane appButtonGraphic = new BorderPane();
           appButtonGraphic.setTop(new Text(file.getName()));
-          appButton.setGraphic(appButtonGraphic);
-          appButton.setMaxWidth(Double.MAX_VALUE);
-          groupListChildren.add(appButton);
+          appNode.setGraphic(appButtonGraphic);
+          appNode.setMaxWidth(Double.MAX_VALUE);
+          groupListChildren.add(appNode);
         }
       }
     } else {
