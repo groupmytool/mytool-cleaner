@@ -1,6 +1,6 @@
 package com.mytool.cleaner.model;
 
-public class AppInfo {
+public class AppListModel {
 
   public String name;
   public String icon;

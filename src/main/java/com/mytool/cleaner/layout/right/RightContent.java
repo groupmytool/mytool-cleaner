@@ -1,6 +1,6 @@
 package com.mytool.cleaner.layout.right;
 
-import com.mytool.cleaner.model.AppInfo;
+import com.mytool.cleaner.model.AppDetailModel;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ScrollPane;
@@ -20,7 +20,7 @@ public class RightContent {
   // App info
   private static final Pane APP_PANE = new Pane();
   private static final VBox APP_CONTENT = new VBox(10);
-  private static final AppInfo APP_INFO = new AppInfo();
+  private static final AppDetailModel APP_INFO = new AppDetailModel();
 
 
   // App file list

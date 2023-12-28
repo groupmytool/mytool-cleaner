@@ -10,8 +10,7 @@
   <name>MyTool Cleaner</name>
 
   <properties>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
+    <java.compiler.version>21</java.compiler.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>21.0.1</javafx.version>
@@ -24,7 +23,9 @@
     <runtime.image>runtime-image</runtime.image>
     <main.module>com.mytool.cleaner</main.module>
     <main.class>com.mytool.cleaner.CleanerApp</main.class>
-    <launcher>app</launcher>
+    <app.launcher>app</app.launcher>
+    <app.name>MyTool Cleaner</app.name>
+    <app.vendor>com.mytool.cleaner</app.vendor>
 
   </properties>
 
@@ -60,8 +61,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
+          <source>${java.compiler.version}</source>
+          <target>${java.compiler.version}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -74,7 +75,7 @@
             <id>default-cli</id>
             <configuration>
               <mainClass>${main.module}/${main.class}</mainClass>
-              <launcher>${launcher}</launcher>
+              <launcher>${app.launcher}</launcher>
               <jlinkImageName>${runtime.image}</jlinkImageName>
               <noManPages>true</noManPages>
               <stripDebug>true</stripDebug>
