@@ -1,4 +1,4 @@
-package com.mytool.cleaner.layout.right;
+package com.mytool.cleaner.views.right;
 
 import com.mytool.cleaner.model.AppDetailModel;
 import javafx.beans.binding.Bindings;

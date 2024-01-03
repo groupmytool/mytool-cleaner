@@ -1,4 +1,4 @@
-package com.mytool.cleaner.layout.middle;
+package com.mytool.cleaner.views.middle;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;

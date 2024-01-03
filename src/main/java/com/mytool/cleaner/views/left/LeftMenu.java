@@ -1,4 +1,4 @@
-package com.mytool.cleaner.layout.left;
+package com.mytool.cleaner.views.left;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;

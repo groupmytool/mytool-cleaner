@@ -1,11 +1,11 @@
-package com.mytool.cleaner.layout;
+package com.mytool.cleaner.views;
 
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 
-import static com.mytool.cleaner.layout.left.LeftMenu.LEFT_MENU_LIST;
-import static com.mytool.cleaner.layout.middle.MiddleContent.MIDDLE_SCROLLABLE_LIST;
-import static com.mytool.cleaner.layout.right.RightContent.RIGHT_SCROLLABLE_LIST;
+import static com.mytool.cleaner.views.left.LeftMenu.LEFT_MENU_LIST;
+import static com.mytool.cleaner.views.middle.MiddleContent.MIDDLE_SCROLLABLE_LIST;
+import static com.mytool.cleaner.views.right.RightContent.RIGHT_SCROLLABLE_LIST;
 import static com.mytool.cleaner.utils.Constants.LAYOUT_DEFAULT_HEIGHT;
 import static com.mytool.cleaner.utils.Constants.LAYOUT_DEFAULT_WIDTH;
 import static com.mytool.cleaner.utils.Constants.LAYOUT_MIN_WIDTH;
