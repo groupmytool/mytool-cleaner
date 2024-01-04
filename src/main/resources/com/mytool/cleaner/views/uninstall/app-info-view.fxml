@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.control.TreeItem?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fx:id="rightScrollableList"
             fx:controller="com.mytool.cleaner.controller.uninstall.AppInfoController"
@@ -18,12 +20,14 @@
   </padding>
 
   <VBox alignment="TOP_CENTER" spacing="20.0">
-
-    <Pane fx:id="appDetailInfo">
-      <VBox fx:id="appContent">
-
+    <HBox fx:id="appDetailInfo" spacing="10.0" fillHeight="true">
+      <ImageView fx:id="appIcon" fitWidth="100" fitHeight="100">
+      </ImageView>
+      <VBox fx:id="appNameAndSize" spacing="10.0" fillWidth="true">
+        <Text text="名称"></Text>
+        <Text text="大小"></Text>
       </VBox>
-    </Pane>
+    </HBox>
     <TreeView fx:id="appFileListView">
       <TreeItem fx:id="appFileListItem">
 
