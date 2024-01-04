@@ -8,8 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -21,13 +22,13 @@ public class AppInfoController extends BaseController {
   @FXML
   private ScrollPane rightScrollableList;
   @FXML
-  private Pane appDetailInfo;
-  @FXML
-  private VBox appContent;
+  private HBox appDetailInfo;
   @FXML
   private TreeView<Text> appFileListView;
   @FXML
   private TreeItem<Text> appFileListItem;
+  @FXML
+  private ImageView appIcon;
 
   @FXML
   protected void onHelloButtonClick() {
@@ -42,24 +43,6 @@ public class AppInfoController extends BaseController {
             appDetailInfo.getBoundsInLocal().getHeight()
         )
     );
-
-
-
-    // app info
-    HBox appTitle = new HBox(10);
-    Text appIcon = new Text("图标");
-
-    VBox appTitleInfo = new VBox(10);
-    Text appName = new Text("名称");
-    Text appSize = new Text("大小");
-    appTitleInfo.getChildren().addAll(appName, appSize);
-
-    appTitle.getChildren().addAll(appIcon, appTitleInfo);
-
-    appContent.getChildren().add(appTitle);
-
-
-
 
     // app file list
     appFileListItem.setExpanded(true);
@@ -77,6 +60,12 @@ public class AppInfoController extends BaseController {
     System.out.println(file);
     System.out.println(file.isDirectory());
 
+    // set appIcon image
+    //    appIcon.setImage(new Image("file:/Users/adolphor/Downloads/idea.png"));
+    String path = "/Users/adolphor/Library/Mobile Documents/com~apple~CloudDocs/gitRepository/javafx/mytool-cleaner/src/main/resources/images";
+    Image icon = new Image("file:" + path + "/idea.png");
+    appIcon.setImage(icon);
+    //    appIcon.setImage(new Image("file:" + path + "/idea.icns"));
 
     TreeItem<Text> cacheTitleItem = initExpandedTreeItem("缓存");
     titleGroup.add(cacheTitleItem);
