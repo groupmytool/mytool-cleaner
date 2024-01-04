@@ -24,8 +24,8 @@
 
       </VBox>
     </Pane>
-    <TreeView fx:id="appFIleListView">
-      <TreeItem fx:id="appFIleListItem">
+    <TreeView fx:id="appFileListView">
+      <TreeItem fx:id="appFileListItem">
 
       </TreeItem>
     </TreeView>

@@ -25,9 +25,9 @@ public class AppInfoController extends BaseController {
   @FXML
   private VBox appContent;
   @FXML
-  private TreeView<Text> appFIleListView;
+  private TreeView<Text> appFileListView;
   @FXML
-  private TreeItem<Text> appFIleListItem;
+  private TreeItem<Text> appFileListItem;
 
   @FXML
   protected void onHelloButtonClick() {
@@ -36,7 +36,7 @@ public class AppInfoController extends BaseController {
 
   @Override
   public void initialize() throws IOException {
-    appFIleListView.prefHeightProperty().bind(
+    appFileListView.prefHeightProperty().bind(
         Bindings.subtract(
             rightScrollableList.heightProperty(),
             appDetailInfo.getBoundsInLocal().getHeight()
@@ -62,8 +62,8 @@ public class AppInfoController extends BaseController {
 
 
     // app file list
-    appFIleListItem.setExpanded(true);
-    ObservableList<TreeItem<Text>> titleGroup = appFIleListItem.getChildren();
+    appFileListItem.setExpanded(true);
+    ObservableList<TreeItem<Text>> titleGroup = appFileListItem.getChildren();
 
     TreeItem<Text> runnableTitleItem = initExpandedTreeItem("可执行文件");
     titleGroup.add(runnableTitleItem);
@@ -97,7 +97,7 @@ public class AppInfoController extends BaseController {
 
 
   private TreeItem<Text> initTreeItem(String title, boolean expanded) throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/mytool/cleaner/views/uninstall/app-info-node-view.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/mytool/cleaner/views/uninstall/app-info-view-file.fxml"));
     TreeItem<Text> item = fxmlLoader.load();
     AppInfoNodeController controller = fxmlLoader.getController();
     controller.setData(title, expanded);
