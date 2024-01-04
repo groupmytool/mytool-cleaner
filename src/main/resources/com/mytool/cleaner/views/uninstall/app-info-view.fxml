@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.TreeItem?>
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:id="rightScrollableList"
+            fx:controller="com.mytool.cleaner.controller.uninstall.AppInfoController"
+            fitToWidth="true" fitToHeight="true" vbarPolicy="AS_NEEDED">
+
+  <padding>
+    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+  </padding>
+
+  <VBox alignment="TOP_CENTER" spacing="20.0">
+
+    <Pane fx:id="appDetailInfo">
+      <VBox fx:id="appContent">
+
+      </VBox>
+    </Pane>
+    <TreeView fx:id="appFileListView">
+      <TreeItem fx:id="appFileListItem">
+
+      </TreeItem>
+    </TreeView>
+  </VBox>
+
+</ScrollPane>

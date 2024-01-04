@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.Scene?>
 <?import javafx.scene.control.SplitPane?>
-<SplitPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.mytool.cleaner.controller.MenuController">
+<SplitPane xmlns:fx="http://javafx.com/fxml">
 
-  <VBox fx:id="menuContainer"/>
+  <fx:include source="module/module-view.fxml"/>
+  <fx:include source="uninstall/app-list-view.fxml"/>
+  <fx:include source="uninstall/app-info-view.fxml"/>
 
 </SplitPane>

@@ -1,8 +1,10 @@
-package com.mytool.cleaner.views.right;
+package com.mytool.cleaner.controller.uninstall;
 
-import com.mytool.cleaner.model.AppDetailModel;
+import com.mytool.cleaner.controller.BaseController;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -12,41 +14,36 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.File;
+import java.io.IOException;
 
-public class RightContent {
+public class AppInfoController extends BaseController {
 
-  private static final VBox RIGHT_GROUP_LIST = new VBox(10);
+  @FXML
+  private ScrollPane rightScrollableList;
+  @FXML
+  private Pane appDetailInfo;
+  @FXML
+  private VBox appContent;
+  @FXML
+  private TreeView<Text> appFileListView;
+  @FXML
+  private TreeItem<Text> appFileListItem;
 
-  // App info
-  private static final Pane APP_PANE = new Pane();
-  private static final VBox APP_CONTENT = new VBox(10);
-  private static final AppDetailModel APP_INFO = new AppDetailModel();
+  @FXML
+  protected void onHelloButtonClick() {
+    System.out.println(this);
+  }
 
-
-  // App file list
-  private static final TreeItem<Text> RIGHT_TREE_LIST = initExpandedTreeItem("详细文件列表");
-  private static final TreeView<Text> RIGHT_TREE_VIEW = new TreeView<>(RIGHT_TREE_LIST);
-
-  public static final ScrollPane RIGHT_SCROLLABLE_LIST = new ScrollPane(RIGHT_GROUP_LIST);
-
-  static {
-    // 绑定TreeView的高度属性到ScrollPane的高度属性，然后减去Text节点的高度
-    RIGHT_TREE_VIEW.prefHeightProperty().bind(
+  @Override
+  public void initialize() throws IOException {
+    appFileListView.prefHeightProperty().bind(
         Bindings.subtract(
-            RIGHT_SCROLLABLE_LIST.heightProperty(),
-            APP_PANE.getBoundsInLocal().getHeight()
+            rightScrollableList.heightProperty(),
+            appDetailInfo.getBoundsInLocal().getHeight()
         )
     );
 
-    APP_PANE.getChildren().add(APP_CONTENT);
 
-    // 填充VBox子节点
-    RIGHT_GROUP_LIST.getChildren().add(APP_PANE);
-    RIGHT_GROUP_LIST.getChildren().add(RIGHT_TREE_VIEW);
-
-    RIGHT_SCROLLABLE_LIST.setFitToWidth(true);
-    RIGHT_SCROLLABLE_LIST.setFitToHeight(true);
-    RIGHT_SCROLLABLE_LIST.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
     // app info
     HBox appTitle = new HBox(10);
@@ -59,12 +56,14 @@ public class RightContent {
 
     appTitle.getChildren().addAll(appIcon, appTitleInfo);
 
-    APP_CONTENT.getChildren().add(appTitle);
+    appContent.getChildren().add(appTitle);
+
+
 
 
     // app file list
-    RIGHT_TREE_LIST.setExpanded(true);
-    ObservableList<TreeItem<Text>> titleGroup = RIGHT_TREE_LIST.getChildren();
+    appFileListItem.setExpanded(true);
+    ObservableList<TreeItem<Text>> titleGroup = appFileListItem.getChildren();
 
     TreeItem<Text> runnableTitleItem = initExpandedTreeItem("可执行文件");
     titleGroup.add(runnableTitleItem);
@@ -96,18 +95,20 @@ public class RightContent {
 
   }
 
-  private static TreeItem<Text> initTreeItem(String title, boolean expanded) {
-    Text text = new Text(title);
-    TreeItem<Text> item = new TreeItem<>(text);
-    item.setExpanded(expanded);
+
+  private TreeItem<Text> initTreeItem(String title, boolean expanded) throws IOException {
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/mytool/cleaner/views/uninstall/app-info-view-file.fxml"));
+    TreeItem<Text> item = fxmlLoader.load();
+    AppInfoNodeController controller = fxmlLoader.getController();
+    controller.setData(title, expanded);
     return item;
   }
 
-  private static TreeItem<Text> initClumpedTreeItem(String title) {
+  private TreeItem<Text> initClumpedTreeItem(String title) throws IOException {
     return initTreeItem(title, false);
   }
 
-  private static TreeItem<Text> initExpandedTreeItem(String title) {
+  private TreeItem<Text> initExpandedTreeItem(String title) throws IOException {
     return initTreeItem(title, true);
   }
 
