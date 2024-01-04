@@ -1,28 +1,25 @@
-package com.mytool.cleaner.views.middle;
+package com.mytool.cleaner.controller.uninstall;
 
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
+import com.mytool.cleaner.controller.BaseController;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.File;
 
-public class MiddleContent {
-  private static final VBox MIDDLE_GROUP_LIST = new VBox(10);
-  public static final ScrollPane MIDDLE_SCROLLABLE_LIST = new ScrollPane(MIDDLE_GROUP_LIST);
+public class AppListController extends BaseController {
 
-  static {
-    // 宽高自适应
-    MIDDLE_SCROLLABLE_LIST.setFitToWidth(true);
-    MIDDLE_SCROLLABLE_LIST.setFitToHeight(true);
-    // 滚动条策略：需要时显示
-    MIDDLE_SCROLLABLE_LIST.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+  @FXML
+  private VBox appList;
 
-    ObservableList<Node> groupListChildren = MIDDLE_GROUP_LIST.getChildren();
+  @FXML
+  protected void onHelloButtonClick() {
+    System.out.println(appList);
+  }
 
+  public void initialize(){
     File applicationsDir = new File("/Applications");
     File[] files = applicationsDir.listFiles();
     if (files != null) {
@@ -33,13 +30,12 @@ public class MiddleContent {
           appButtonGraphic.setTop(new Text(file.getName()));
           appNode.setGraphic(appButtonGraphic);
           appNode.setMaxWidth(Double.MAX_VALUE);
-          groupListChildren.add(appNode);
+          appList.getChildren().add(appNode);
         }
       }
     } else {
       System.out.println("No applications found.");
     }
-
   }
 
 }
