@@ -52,11 +52,6 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.github.mouse0w0</groupId>
-      <artifactId>darculafx</artifactId>
-      <version>9.0.0</version>
-    </dependency>
   </dependencies>
 
   <build>
