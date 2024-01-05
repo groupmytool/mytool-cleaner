@@ -1,7 +1,5 @@
 #!/bin/bash
 
-graal21
-
 app_name="MyTool CLeaner"
 main_module="com.mytool.cleaner"
 main_class="com.mytool.cleaner.CleanerApp"

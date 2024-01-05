@@ -16,7 +16,7 @@ public class BaseController {
   }
 
   public double getAppListMinWidth() {
-    return LAYOUT_MIN_WIDTH * 0.3;
+    return LAYOUT_MIN_WIDTH * 0.2;
   }
 
   public double getAppListMaxWidth() {

@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fx:id="rightScrollableList"
             fx:controller="com.mytool.cleaner.controller.uninstall.AppInfoController"
@@ -20,12 +19,13 @@
   </padding>
 
   <VBox alignment="TOP_CENTER" spacing="20.0">
-    <HBox fx:id="appDetailInfo" spacing="10.0" fillHeight="true">
-      <ImageView fx:id="appIcon" fitWidth="100" fitHeight="100">
+    <HBox fx:id="appDetailGroup" spacing="10.0" fillHeight="true">
+      <ImageView fx:id="appIcon" fitWidth="128" fitHeight="128">
       </ImageView>
-      <VBox fx:id="appNameAndSize" spacing="10.0" fillWidth="true">
-        <Text text="名称"></Text>
-        <Text text="大小"></Text>
+      <VBox fx:id="appDetailText" spacing="10.0" fillWidth="true">
+        <Text fx:id="appName" text="名称"></Text>
+        <Text fx:id="appSize" text="大小"></Text>
+        <Text fx:id="appInstallTime" text="安装时间"></Text>
       </VBox>
     </HBox>
     <TreeView fx:id="appFileListView">
