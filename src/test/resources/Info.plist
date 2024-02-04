@@ -24,7 +24,7 @@
           <string>java</string>
         </array>
         <key>CFBundleTypeIconFile</key>
-        <string>idea.icns</string>        
+        <string>idea.icns</string>
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
       </dict>
@@ -34,7 +34,7 @@
           <string>groovy</string>
         </array>
         <key>CFBundleTypeIconFile</key>
-        <string>idea.icns</string>        
+        <string>idea.icns</string>
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
       </dict>
@@ -44,7 +44,7 @@
           <string>kt</string>
         </array>
         <key>CFBundleTypeIconFile</key>
-        <string>idea.icns</string>        
+        <string>idea.icns</string>
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
       </dict>
@@ -54,7 +54,7 @@
           <string>kts</string>
         </array>
         <key>CFBundleTypeIconFile</key>
-        <string>idea.icns</string>        
+        <string>idea.icns</string>
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
       </dict>
@@ -93,7 +93,7 @@
     <string>2023.3.3</string>
     <key>CFBundleVersion</key>
     <string>IC-233.14015.106</string>
-    
+
     <key>CFBundleURLTypes</key>
     <array>
       <dict>
@@ -127,7 +127,9 @@
     <key>JVMOptions</key>
     <dict>
       <key>ClassPath</key>
-      <string>$APP_PACKAGE/Contents/lib/platform-loader.jar:$APP_PACKAGE/Contents/lib/util-8.jar:$APP_PACKAGE/Contents/lib/util.jar:$APP_PACKAGE/Contents/lib/app-client.jar:$APP_PACKAGE/Contents/lib/util_rt.jar:$APP_PACKAGE/Contents/lib/product-client.jar:$APP_PACKAGE/Contents/lib/app.jar:$APP_PACKAGE/Contents/lib/lib-client.jar:$APP_PACKAGE/Contents/lib/modules.jar:$APP_PACKAGE/Contents/lib/lib.jar:$APP_PACKAGE/Contents/lib/stats.jar:$APP_PACKAGE/Contents/lib/jps-model.jar:$APP_PACKAGE/Contents/lib/external-system-rt.jar:$APP_PACKAGE/Contents/lib/rd.jar:$APP_PACKAGE/Contents/lib/protobuf.jar:$APP_PACKAGE/Contents/lib/bouncy-castle.jar:$APP_PACKAGE/Contents/lib/forms_rt.jar:$APP_PACKAGE/Contents/lib/intellij-test-discovery.jar:$APP_PACKAGE/Contents/lib/annotations.jar:$APP_PACKAGE/Contents/lib/groovy.jar:$APP_PACKAGE/Contents/lib/externalProcess-rt.jar:$APP_PACKAGE/Contents/lib/byte-buddy-agent.jar:$APP_PACKAGE/Contents/lib/error-prone-annotations.jar:$APP_PACKAGE/Contents/lib/grpc.jar:$APP_PACKAGE/Contents/lib/idea_rt.jar:$APP_PACKAGE/Contents/lib/intellij-coverage-agent-1.0.738.jar:$APP_PACKAGE/Contents/lib/jsch-agent.jar:$APP_PACKAGE/Contents/lib/junit4.jar:$APP_PACKAGE/Contents/lib/ant/lib/ant.jar</string>
+      <string>
+        $APP_PACKAGE/Contents/lib/platform-loader.jar:$APP_PACKAGE/Contents/lib/util-8.jar:$APP_PACKAGE/Contents/lib/util.jar:$APP_PACKAGE/Contents/lib/app-client.jar:$APP_PACKAGE/Contents/lib/util_rt.jar:$APP_PACKAGE/Contents/lib/product-client.jar:$APP_PACKAGE/Contents/lib/app.jar:$APP_PACKAGE/Contents/lib/lib-client.jar:$APP_PACKAGE/Contents/lib/modules.jar:$APP_PACKAGE/Contents/lib/lib.jar:$APP_PACKAGE/Contents/lib/stats.jar:$APP_PACKAGE/Contents/lib/jps-model.jar:$APP_PACKAGE/Contents/lib/external-system-rt.jar:$APP_PACKAGE/Contents/lib/rd.jar:$APP_PACKAGE/Contents/lib/protobuf.jar:$APP_PACKAGE/Contents/lib/bouncy-castle.jar:$APP_PACKAGE/Contents/lib/forms_rt.jar:$APP_PACKAGE/Contents/lib/intellij-test-discovery.jar:$APP_PACKAGE/Contents/lib/annotations.jar:$APP_PACKAGE/Contents/lib/groovy.jar:$APP_PACKAGE/Contents/lib/externalProcess-rt.jar:$APP_PACKAGE/Contents/lib/byte-buddy-agent.jar:$APP_PACKAGE/Contents/lib/error-prone-annotations.jar:$APP_PACKAGE/Contents/lib/grpc.jar:$APP_PACKAGE/Contents/lib/idea_rt.jar:$APP_PACKAGE/Contents/lib/intellij-coverage-agent-1.0.738.jar:$APP_PACKAGE/Contents/lib/jsch-agent.jar:$APP_PACKAGE/Contents/lib/junit4.jar:$APP_PACKAGE/Contents/lib/ant/lib/ant.jar
+      </string>
       <key>JVMVersion</key>
       <string>1.8*,1.8+</string>
       <key>MainClass</key>

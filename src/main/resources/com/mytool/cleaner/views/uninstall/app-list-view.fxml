@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.ScrollPane?>
-<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.mytool.cleaner.controller.uninstall.AppListController"
+<?import javafx.scene.layout.VBox?>
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.mytool.cleaner.controller.uninstall.AppListController"
             fitToWidth="true" fitToHeight="true" vbarPolicy="AS_NEEDED"
-            minWidth="${controller.appListMinWidth}" maxWidth="${controller.appListMaxWidth}">
+            minWidth="${controller.listMinWidth}" maxWidth="${controller.listMaxWidth}">
 
   <padding>
     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>

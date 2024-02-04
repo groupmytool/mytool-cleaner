@@ -11,15 +11,18 @@ public class BaseController {
     return Double.MAX_VALUE;
   }
 
+  // 菜单模块固定宽度
   public double getMenuWidth() {
     return LAYOUT_MIN_WIDTH * 0.2;
   }
 
-  public double getAppListMinWidth() {
+  // 列表最小宽度
+  public double getListMinWidth() {
     return LAYOUT_MIN_WIDTH * 0.2;
   }
 
-  public double getAppListMaxWidth() {
+  // 列表最大宽度
+  public double getListMaxWidth() {
     return LAYOUT_DEFAULT_WIDTH * 0.5;
   }
 

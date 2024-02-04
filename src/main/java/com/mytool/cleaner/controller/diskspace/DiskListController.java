@@ -19,7 +19,7 @@ public class DiskListController extends BaseController {
     System.out.println(diskList);
   }
 
-  public void initialize(){
+  public void initialize() {
     File applicationsDir = new File("/Applications");
     File[] files = applicationsDir.listFiles();
     if (files != null) {

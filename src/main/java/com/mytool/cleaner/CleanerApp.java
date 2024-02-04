@@ -14,6 +14,10 @@ import static com.mytool.cleaner.utils.Constants.LAYOUT_MIN_WIDTH;
 
 public class CleanerApp extends Application {
 
+  public static void main(String[] args) {
+    launch(args);
+  }
+
   @Override
   public void start(Stage stage) throws IOException {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/mytool/cleaner/views/main-view.fxml"));
@@ -23,10 +27,6 @@ public class CleanerApp extends Application {
     stage.setMinWidth(LAYOUT_MIN_WIDTH);
     stage.setMinHeight(LAYOUT_MIN_HEIGHT);
     stage.show();
-  }
-
-  public static void main(String[] args) {
-    launch(args);
   }
 
 }

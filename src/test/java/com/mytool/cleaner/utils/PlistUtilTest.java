@@ -3,7 +3,6 @@ package com.mytool.cleaner.utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.lang.ref.Reference;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -14,19 +13,6 @@ class PlistUtilTest {
       + "test" + File.separator
       + "resources" + File.separator
       + "Info.plist";
-
-  @Test
-  void readPlist() {
-    try {
-      HashMap<String, Object> parameters = PlistUtil.readPlist(filePath);
-      Set<String> keySet = parameters.keySet();
-      for (String key : keySet) {
-        foreachCheck(parameters.get(key));
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
 
   private static void foreachCheck(Object val) {
     if (val instanceof String) {
@@ -45,6 +31,19 @@ class PlistUtilTest {
       }
     } else {
       System.err.println("未知类型：" + val.getClass());
+    }
+  }
+
+  @Test
+  void readPlist() {
+    try {
+      HashMap<String, Object> parameters = PlistUtil.readPlist(filePath);
+      Set<String> keySet = parameters.keySet();
+      for (String key : keySet) {
+        foreachCheck(parameters.get(key));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 

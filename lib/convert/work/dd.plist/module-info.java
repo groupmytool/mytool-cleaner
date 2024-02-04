@@ -1,6 +1,6 @@
 module dd.plist {
-    requires transitive java.xml;
+  requires transitive java.xml;
 
-    exports com.dd.plist;
+  exports com.dd.plist;
 
 }
