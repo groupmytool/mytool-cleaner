@@ -33,7 +33,7 @@ class IconUtilTest {
             for (File icon : icons) {
               BasicFileAttributes attrs = Files.readAttributes(icon.toPath(), BasicFileAttributes.class);
               String size = String.format("%.1f MB", attrs.size() / 1000.0 / 1000.0);
-              System.out.println(STR."\t\t \{size} MB => \{icon.getName()}");
+              System.out.println("\t\t %s MB => %s".formatted(size, icon.getName()));
             }
           }
         }

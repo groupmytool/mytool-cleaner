@@ -28,7 +28,7 @@ public class IconUtil {
     }
     if (filePathCheck(sourceIcons)) {
       filePathCheckAndCreate(ICNS_CACHE_PATH);
-      String outPath = STR."\{ICNS_CACHE_PATH}/\{cacheName}.png";
+      String outPath = "%s/%s.png".formatted(ICNS_CACHE_PATH, cacheName);
       File out = new File(outPath);
       if (!out.exists()) {
         IconUtil.transform(new File(sourceIcons), "png", out);

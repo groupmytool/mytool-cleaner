@@ -81,7 +81,7 @@ public class AppInfoController extends BaseController {
     // 应用图标
     HashMap<String, Object> plist = null;
     try {
-      plist = PlistUtil.readPlist(STR."\{appListModel.file.getAbsolutePath()}/Contents/Info.plist");
+      plist = PlistUtil.readPlist("%s/Contents/Info.plist".formatted(appListModel.file.getAbsolutePath()));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -92,7 +92,7 @@ public class AppInfoController extends BaseController {
     } else {
       icnsName = "AppIcon";
     }
-    String sourceIcons = STR."\{appListModel.path}/Contents/Resources/\{icnsName}";
+    String sourceIcons = "%s/Contents/Resources/%s".formatted(appListModel.path, icnsName);
     appIcon.setImage(getIcon(sourceIcons, appListModel.name));
 
 
