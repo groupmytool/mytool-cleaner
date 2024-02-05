@@ -1,7 +1,9 @@
 target/
-native/com_mytool_cleaner_utils_FileMetaData.h
-native/libFileMetaData.dylib
-lib/work
+lib/native/com_mytool_cleaner_utils_FileMetaData.h
+lib/native/libFileMetaData.dylib
+lib/jar/work
+lib/jar/out
+lib/jar/classes
 
 ### IntelliJ IDEA ###
 .idea

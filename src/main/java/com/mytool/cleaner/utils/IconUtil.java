@@ -1,19 +1,44 @@
 package com.mytool.cleaner.utils;
 
+import javafx.scene.image.Image;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
+import java.io.InputStream;
+import java.util.Objects;
+
+import static com.mytool.cleaner.utils.CacheUtil.ICNS_CACHE_PATH;
+import static com.mytool.cleaner.utils.CacheUtil.filePathCheck;
+import static com.mytool.cleaner.utils.CacheUtil.filePathCheckAndCreate;
 
 /**
  * macOS icon util
  */
 public class IconUtil {
+
+  public static Image getIcon(String sourceIcons, String cacheName) throws FileNotFoundException {
+    if (!sourceIcons.endsWith(".icns")) {
+      sourceIcons += ".icns";
+    }
+    if (filePathCheck(sourceIcons)) {
+      filePathCheckAndCreate(ICNS_CACHE_PATH);
+      String outPath = STR."\{ICNS_CACHE_PATH}/\{cacheName}.png";
+      File out = new File(outPath);
+      if (!out.exists()) {
+        IconUtil.transform(new File(sourceIcons), "png", out);
+      }
+      return new Image(new FileInputStream(out));
+    } else {
+      InputStream icon = IconUtil.class.getResourceAsStream("/images/default-icon.png");
+      return new Image(Objects.requireNonNull(icon));
+    }
+  }
 
   /**
    * transform icns to png

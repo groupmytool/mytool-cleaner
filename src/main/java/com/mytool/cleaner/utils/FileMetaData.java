@@ -1,8 +1,12 @@
 package com.mytool.cleaner.utils;
 
+/**
+ * 通过native方法获取文件元数据
+ */
 public class FileMetaData {
   static {
-    System.load("/Users/adolphor/IdeaProjects/javafx/mytool-cleaner/lib/native/libFileMetaData.dylib");
+    System.loadLibrary("FileMetaData");
   }
+
   public native String getMetadata(String path);
 }
