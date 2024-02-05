@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 JARPATH=$1
 MOD=$2
 ROOT_DIR=$PWD

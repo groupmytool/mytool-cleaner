@@ -1,7 +1,7 @@
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+native/com_mytool_cleaner_utils_FileMetaData.h
+native/libFileMetaData.dylib
+lib/work
 
 ### IntelliJ IDEA ###
 .idea
@@ -32,4 +32,4 @@ build/
 .vscode/
 
 ### Mac OS ###
-.DS_Store
+.DS_Store!
