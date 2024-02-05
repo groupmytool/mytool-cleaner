@@ -20,7 +20,7 @@ public class CleanerApp extends Application {
 
   @Override
   public void start(Stage stage) throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/mytool/cleaner/views/main-view.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/main-view.fxml"));
     Scene scene = new Scene(fxmlLoader.load(), LAYOUT_DEFAULT_WIDTH, LAYOUT_DEFAULT_HEIGHT);
     stage.setTitle("Hello!");
     stage.setScene(scene);

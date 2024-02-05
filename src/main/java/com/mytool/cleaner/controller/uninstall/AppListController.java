@@ -66,7 +66,7 @@ public class AppListController extends BaseController {
 
     appNode.setOnAction(event -> {
       try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/mytool/cleaner/views/uninstall/app-info-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-info-view.fxml"));
         ScrollPane appInfoView = fxmlLoader.load();
         AppInfoController controller = fxmlLoader.getController();
         controller.setAppListModel(model);

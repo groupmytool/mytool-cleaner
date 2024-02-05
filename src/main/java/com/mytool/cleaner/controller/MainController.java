@@ -22,7 +22,7 @@ public class MainController extends BaseController {
   @FXML
   protected void onUninstallButtonClick() {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/mytool/cleaner/views/uninstall/app-list-view.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-list-view.fxml"));
       ScrollPane appList = fxmlLoader.load();
       AppListController controller = fxmlLoader.getController();
       controller.setContentPane(contentPane);
@@ -38,7 +38,7 @@ public class MainController extends BaseController {
   @FXML
   protected void onDiskSpaceButtonClick() {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/mytool/cleaner/views/diskspace/disk-list-view.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/diskspace/disk-list-view.fxml"));
       ScrollPane diskSpace = fxmlLoader.load();
       contentPane.getChildren().setAll(diskSpace);
     } catch (IOException e) {
