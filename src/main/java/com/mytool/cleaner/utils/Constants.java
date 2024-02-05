@@ -4,6 +4,7 @@ public class Constants {
 
   public static final String IDENTIFIER = "com.mytool.cleaner";
   public static final String VENDOR = "MyToolCleaner";
+  public static final String ROOT_PATH = "/Applications";
 
   public static final int LAYOUT_MIN_WIDTH = 640;
   public static final int LAYOUT_MIN_HEIGHT = 480;

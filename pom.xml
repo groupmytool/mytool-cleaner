@@ -78,6 +78,7 @@
         <configuration>
           <source>${java.compiler.version}</source>
           <target>${java.compiler.version}</target>
+          <compilerArgs>--enable-preview</compilerArgs>
         </configuration>
       </plugin>
       <plugin>

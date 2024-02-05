@@ -6,6 +6,9 @@ import javax.imageio.ImageReader;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 
 /**
  * macOS icon util
@@ -15,18 +18,18 @@ public class IconUtil {
   /**
    * transform icns to png
    *
-   * @param iconsPath  source app icon path
+   * @param input      source app icon path
    * @param formatName output image format name
-   * @param outPath    output image path
+   * @param out        output image path
    */
-  public static void transform(String iconsPath, String formatName, String outPath) {
+  public static void transform(File input, String formatName, File out) {
     try {
       ImageReader reader = ImageIO.getImageReadersByFormatName("icns").next();
-      reader.setInput(ImageIO.createImageInputStream(new File(iconsPath)));
+      reader.setInput(ImageIO.createImageInputStream(input));
       ImageReadParam param = reader.getDefaultReadParam();
       int picIndex = getIndex(reader, param);
       BufferedImage pic = reader.read(picIndex, param);
-      ImageIO.write(pic, formatName, new File(outPath));
+      ImageIO.write(pic, formatName, out);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -47,7 +50,6 @@ public class IconUtil {
 
     for (int i = 0; i < numImages; i++) {
       BufferedImage image = reader.read(i, param);
-      System.out.println("image width: " + image.getWidth() + ", image height: " + image.getHeight() + ", image index: " + i);
       // check this image is more close to ppi or not
       if ((curWidth == 0 || curHeight == 0) || // first image init
           (curWidth < size && image.getWidth() > curWidth) || // too small
@@ -58,8 +60,6 @@ public class IconUtil {
         curHeight = image.getHeight();
         curIndex = i;
       }
-      System.out.println("cur width: " + curWidth + ", cur height: " + curHeight + ", cur index: " + curIndex);
-      System.out.println();
     }
     return curIndex;
   }

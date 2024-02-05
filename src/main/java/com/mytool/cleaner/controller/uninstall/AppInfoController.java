@@ -18,13 +18,19 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Objects;
 
-import static com.mytool.cleaner.utils.CacheUtil.CACHE_PATH;
+import static com.mytool.cleaner.utils.CacheUtil.ICNS_CACHE_PATH;
+import static com.mytool.cleaner.utils.CacheUtil.filePathCheck;
 import static com.mytool.cleaner.utils.CacheUtil.filePathCheckAndCreate;
 
 /**
@@ -57,47 +63,22 @@ public class AppInfoController extends BaseController {
     this.appListModel = appListModel;
   }
 
-  @Override
-  public void initialize() throws IOException {
+  public void build() throws IOException {
 
     // app file list
     appFileListItem.setExpanded(true);
     ObservableList<TreeItem<Text>> titleGroup = appFileListItem.getChildren();
 
-    String appPathName = "/Applications/IntelliJ IDEA CE.app";
-    File file = new File(appPathName);
+    // 解析系统文件基础信息
+    BasicFileAttributes attrs = Files.readAttributes(appListModel.file.toPath(), BasicFileAttributes.class);
+    long size = attrs.size();
+    FileTime creationTime = attrs.creationTime();
+    FileTime lastAccessTime = attrs.lastAccessTime();
 
-    System.out.println(file);
 
-    BasicFileAttributes attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
-    System.out.println("File creation time: " + attrs.creationTime());
-
-    // 解析"/Applications/IntelliJ IDEA CE.app"应用plist文件，获取：应用名称、版本号、大小、安装时间、更新时间、开发者、签名、是否是64位应用、是否是沙盒
+    HashMap<String, Object> plist;
     try {
-      HashMap<String, Object> plist = PlistUtil.readPlist(appPathName + "/Contents/Info.plist");
-
-      String sourceIcons = appPathName + "/Contents/Resources/idea.icns";
-
-      filePathCheckAndCreate(CACHE_PATH);
-      String outPath = CACHE_PATH + File.separator + "idea.png";
-
-      IconUtil.transform(sourceIcons, "png", outPath);
-
-      Image icon = new Image("file:" + outPath);
-      appIcon.setImage(icon);
-      appName.setText(plist.get("CFBundleName").toString());
-      appVersion.setText(plist.get("CFBundleShortVersionString").toString());
-
-      // 高度自适应
-      appFileListView.prefHeightProperty().bind(
-          Bindings.subtract(
-              rightScrollableList.heightProperty(),
-              appDetailPane.getBoundsInLocal().getHeight()
-          )
-      );
-
-      plist.get("CFBundleIdentifier").toString();
-
+      plist = PlistUtil.readPlist(STR."\{appListModel.path}/Contents/Info.plist");
     } catch (ParseException e) {
       throw new RuntimeException(e);
     } catch (ParserConfigurationException e) {
@@ -106,10 +87,34 @@ public class AppInfoController extends BaseController {
       throw new RuntimeException(e);
     }
 
+    // 解析配置文件中的基础信息
+    Object cfBundleName = plist.get("CFBundleName");
+    if (Objects.isNull(cfBundleName)) {
+      appName.setText(appListModel.file.getName());
+    } else {
+      appName.setText(cfBundleName.toString());
+    }
+
+
+    appVersion.setText(plist.get("CFBundleShortVersionString").toString());
+    // 应用图标
+    appIcon.setImage(getIcon(plist));
+
+    // 高度自适应
+    appFileListView.prefHeightProperty().bind(
+        Bindings.subtract(
+            rightScrollableList.heightProperty(),
+            appDetailPane.getBoundsInLocal().getHeight()
+        )
+    );
+
+    plist.get("CFBundleIdentifier").toString();
+
+
     TreeItem<Text> runnableTitleItem = initExpandedTreeItem("可执行文件");
     titleGroup.add(runnableTitleItem);
 
-    TreeItem<Text> runnableChildItem = initExpandedTreeItem(file.getName());
+    TreeItem<Text> runnableChildItem = initExpandedTreeItem(appListModel.file.getName());
     runnableTitleItem.getChildren().add(runnableChildItem);
 
     // 应用程序支持：~/Library/Application Support/JetBrains
@@ -132,6 +137,26 @@ public class AppInfoController extends BaseController {
     TreeItem<Text> fileTypeTitleItem = initExpandedTreeItem("支持的文稿类型");
     titleGroup.add(fileTypeTitleItem);
 
+  }
+
+  private Image getIcon(HashMap<String, Object> plist) throws FileNotFoundException {
+    String icnsName = plist.getOrDefault("CFBundleIconFile", STR."\{appListModel.name}").toString();
+    String sourceIcons = STR."\{appListModel.path}/Contents/Resources/\{icnsName}";
+    if (!sourceIcons.endsWith(".icns")) {
+      sourceIcons += ".icns";
+    }
+    if (filePathCheck(sourceIcons)) {
+      filePathCheckAndCreate(ICNS_CACHE_PATH);
+      String outPath = STR."\{ICNS_CACHE_PATH}/\{appListModel.name}.png";
+      File out = new File(outPath);
+      if (!out.exists()) {
+        IconUtil.transform(new File(sourceIcons), "png", out);
+      }
+      return new Image(new FileInputStream(out));
+    } else {
+      InputStream icon = getClass().getResourceAsStream("/images/default-icon.png");
+      return new Image(Objects.requireNonNull(icon));
+    }
   }
 
   // 加载APP分组文件列表
