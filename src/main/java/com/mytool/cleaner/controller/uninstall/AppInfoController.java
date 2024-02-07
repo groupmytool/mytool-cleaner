@@ -2,25 +2,21 @@ package com.mytool.cleaner.controller.uninstall;
 
 import com.mytool.cleaner.controller.BaseController;
 import com.mytool.cleaner.model.AppListModel;
-import com.mytool.cleaner.utils.AppSizeCalculator;
-import com.mytool.cleaner.utils.PlistUtil;
+import com.mytool.cleaner.service.uninstall.AppInfoService;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
-import java.util.HashMap;
 
-import static com.mytool.cleaner.utils.IconUtil.getIcon;
 
 /**
  * App详细信息控制器
@@ -54,47 +50,15 @@ public class AppInfoController extends BaseController {
 
   public void build() throws IOException {
 
-    // app file list
-    appFileListItem.setExpanded(true);
-    ObservableList<TreeItem<Text>> titleGroup = appFileListItem.getChildren();
+    // 应用图标
+    AppInfoService.setAppIcon(appIcon, appListModel);
+    // 应用名称
+    AppInfoService.setAppName(appName, appListModel);
 
     // 应用大小
-    long sizeKb = AppSizeCalculator.calculateAppSize(appListModel.file.toPath());
-    String sizeText;
-    double sizeMb = sizeKb / 1000.0 / 1000.0;
-    if (sizeMb < 1000.0) {
-      sizeText = String.format("%.1f MB", sizeMb);
-    } else {
-      sizeText = String.format("%.2f GB", sizeMb / 1000.0);
-    }
-    appSize.setText(sizeText);
-
-    BasicFileAttributes attrs = Files.readAttributes(appListModel.file.toPath(), BasicFileAttributes.class);
+    AppInfoService.setAppSize(appSize, appListModel);
     // 创建时间
-    FileTime creationTime = attrs.creationTime();
-    appInstallTime.setText(creationTime.toString());
-
-    // 应用名称
-    appName.setText(appListModel.file.getName());
-
-
-    // 应用图标
-    HashMap<String, Object> plist = null;
-    try {
-      plist = PlistUtil.readPlist("%s/Contents/Info.plist".formatted(appListModel.file.getAbsolutePath()));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    String icnsName;
-    if (plist != null) {
-      icnsName = plist.getOrDefault("CFBundleIconFile", "AppIcon").toString();
-    } else {
-      icnsName = "AppIcon";
-    }
-    String sourceIcons = "%s/Contents/Resources/%s".formatted(appListModel.path, icnsName);
-    appIcon.setImage(getIcon(sourceIcons, appListModel.name));
-
+    AppInfoService.setCreateTime(appInstallTime, appListModel);
 
     // 高度自适应
     appFileListView.prefHeightProperty().bind(
@@ -104,6 +68,13 @@ public class AppInfoController extends BaseController {
         )
     );
 
+    // app file list
+    appFileListView.setShowRoot(false);
+    appFileListView.setCellFactory(CheckBoxTreeCell.forTreeView());
+
+    appFileListItem.setExpanded(true);
+    ObservableList<TreeItem<Text>> titleGroup = appFileListItem.getChildren();
+    titleGroup.clear();
 
     TreeItem<Text> runnableTitleItem = initExpandedTreeItem("可执行文件");
     titleGroup.add(runnableTitleItem);
@@ -135,9 +106,9 @@ public class AppInfoController extends BaseController {
 
   // 加载APP分组文件列表
   private TreeItem<Text> initTreeItem(String title, boolean expanded) {
-    TreeItem<Text> treeItem = new TreeItem<>();
+    CheckBoxTreeItem<Text> treeItem = new CheckBoxTreeItem<>();
     treeItem.setExpanded(expanded);
-    treeItem.setGraphic(new Text(title));
+    treeItem.setValue(new Text(title));
     return treeItem;
   }
 

@@ -6,8 +6,8 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<SplitPane xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.mytool.cleaner.controller.MainController">
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.mytool.cleaner.controller.MainController">
 
   <!-- 模块列表 -->
   <ScrollPane xmlns:fx="http://javafx.com/fxml"
@@ -25,6 +25,7 @@
   </ScrollPane>
 
   <!-- 模块详情 -->
-  <HBox fx:id="contentPane"/>
+  <SplitPane fx:id="contentPane" HBox.hgrow="ALWAYS" minWidth="-Infinity">
+  </SplitPane>
 
-</SplitPane>
+</HBox>

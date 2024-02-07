@@ -51,8 +51,6 @@
       <groupId>com.googlecode.plist</groupId>
       <artifactId>dd-plist</artifactId>
       <version>1.27</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/jar/dd-plist-1.27.jar</systemPath>
     </dependency>
 
     <dependency>

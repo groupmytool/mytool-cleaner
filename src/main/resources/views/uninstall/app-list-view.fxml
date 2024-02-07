@@ -6,7 +6,8 @@
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.mytool.cleaner.controller.uninstall.AppListController"
             fitToWidth="true" fitToHeight="true" vbarPolicy="AS_NEEDED"
-            minWidth="${controller.listMinWidth}" maxWidth="${controller.listMaxWidth}">
+            minWidth="${controller.listMinWidth}" maxWidth="${controller.listMaxWidth}"
+            prefWidth="${controller.listMinWidth}">
 
   <padding>
     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>

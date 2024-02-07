@@ -12,35 +12,37 @@
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fx:id="rightScrollableList"
             fx:controller="com.mytool.cleaner.controller.uninstall.AppInfoController"
-            fitToWidth="true" fitToHeight="true" vbarPolicy="AS_NEEDED">
+            fitToWidth="true" fitToHeight="true" vbarPolicy="NEVER"
+            minWidth="610">
 
   <padding>
     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
   </padding>
 
   <!-- App详情信息 -->
-  <VBox>
+  <VBox minWidth="600">
     <HBox HBox.hgrow="ALWAYS" fx:id="appDetailPane">
       <padding>
         <Insets left="40.0" top="10.0" right="40.0" bottom="10.0"/>
       </padding>
       <ImageView fx:id="appIcon" fitWidth="128" fitHeight="128"/>
-      <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-        <HBox fx:id="appDetailText" HBox.hgrow="ALWAYS">
-          <padding>
-            <Insets left="40.0" top="10.0" right="40.0" bottom="10.0"/>
-          </padding>
-          <Text fx:id="appName" text="名称"/>
-          <Pane HBox.hgrow="ALWAYS"/>
+      <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" spacing="5">
+        <padding>
+          <Insets left="40.0" right="40.0"/>
+        </padding>
+        <Text fx:id="appName" text="名称">
+          <font>
+            <javafx.scene.text.Font name="System Bold" size="20.0"/>
+          </font>
+        </Text>
+        <Pane prefHeight="1" HBox.hgrow="ALWAYS" style="-fx-background-color: #e0e0e0;"/>
+        <HBox>
+          <Text text="安装时间："/>
           <Text fx:id="appInstallTime" text="安装时间"/>
         </HBox>
         <Pane prefHeight="1" HBox.hgrow="ALWAYS" style="-fx-background-color: #e0e0e0;"/>
-        <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-          <padding>
-            <Insets left="40.0" top="10.0" right="40.0" bottom="10.0"/>
-          </padding>
-          <Text fx:id="appVersion" text="版本"/>
-          <Pane HBox.hgrow="ALWAYS"/>
+        <HBox>
+          <Text text="应用大小："/>
           <Text fx:id="appSize" text="大小"/>
         </HBox>
       </VBox>

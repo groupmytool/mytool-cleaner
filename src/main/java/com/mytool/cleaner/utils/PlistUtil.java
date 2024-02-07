@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 
+/**
+ * Info.plist 解析工具，当前只解析第一层内容，因为用不到其他内容，暂不支持递归解析
+ */
 public class PlistUtil {
 
   public static HashMap<String, Object> readPlist(String filePath) throws IOException, ParseException, ParserConfigurationException, SAXException {
@@ -23,20 +26,5 @@ public class PlistUtil {
     }
   }
 
-  public static Object getSpecificSingleNode(HashMap<String, Object> nodes, String key) {
-    String[] split = key.split("\\.");
-    int i = 0;
-    Object node;
-    while (true) {
-      node = nodes.get(split[i++]);
-      if (i == split.length) {
-        return node;
-      } else if (node instanceof HashMap hmo) {
-        nodes = hmo;
-      } else {
-        return null;
-      }
-    }
-  }
 
 }

@@ -4,16 +4,19 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.mytool.cleaner.controller.diskspace.DiskListController"
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:id="rightScrollableList"
+            fx:controller="com.mytool.cleaner.controller.uninstall.AppInfoController"
             fitToWidth="true" fitToHeight="true" vbarPolicy="AS_NEEDED"
-            minWidth="${controller.listMinWidth}" maxWidth="${controller.listMaxWidth}">
+            minWidth="610">
 
   <padding>
     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
   </padding>
 
-  <VBox fx:id="diskList" alignment="CENTER" spacing="5.0">
-    <Text text="磁盘分析信息"/>
+  <!-- App详情信息 -->
+  <VBox alignment="CENTER">
+    <Text text="🫲点击左侧列表选择要卸载的应用"/>
   </VBox>
 
 </ScrollPane>

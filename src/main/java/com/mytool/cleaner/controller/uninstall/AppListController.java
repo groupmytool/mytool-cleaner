@@ -8,7 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
@@ -31,13 +31,22 @@ public class AppListController extends BaseController {
   private static List<AppListModel> listModelList = new ArrayList<>();
   @FXML
   private VBox appList;
-  private HBox contentPane;
+  private SplitPane contentPane;
 
-  public void setContentPane(HBox contentPane) {
+  private FXMLLoader detailFxmlLoader;
+  private ScrollPane detailView;
+  private AppInfoController controller;
+
+  public void setContentPane(SplitPane contentPane) {
     this.contentPane = contentPane;
   }
 
-  public void initialize() {
+  @Override
+  public void initialize() throws IOException {
+    detailFxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-detail-view.fxml"));
+    detailView = detailFxmlLoader.load();
+    controller = detailFxmlLoader.getController();
+
     File applicationsDir = new File(ROOT_PATH);
     File[] apps = applicationsDir.listFiles();
     if (apps != null) {
@@ -61,21 +70,18 @@ public class AppListController extends BaseController {
 
     AppListModel model = new AppListModel();
     model.name = app.getName().split("\\.")[0];
-    model.path = app.getAbsolutePath();
     model.file = app;
+
 
     appNode.setOnAction(event -> {
       try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-info-view.fxml"));
-        ScrollPane appInfoView = fxmlLoader.load();
-        AppInfoController controller = fxmlLoader.getController();
         controller.setAppListModel(model);
         controller.build();
-        ObservableList<Node> children = contentPane.getChildren();
-        if (children.size() > 1) {
+        ObservableList<Node> children = contentPane.getItems();
+        if (children.size() > 1 && children.get(1) != detailView) {
           children.remove(1, children.size());
+          children.add(detailView);
         }
-        children.add(appInfoView);
       } catch (IOException e) {
         e.printStackTrace();
       }

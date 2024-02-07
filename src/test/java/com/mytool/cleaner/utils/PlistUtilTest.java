@@ -47,15 +47,5 @@ class PlistUtilTest {
     }
   }
 
-  @Test
-  void getSpecificSingleNode() {
-    try {
-      HashMap<String, Object> parameters = PlistUtil.readPlist(filePath);
-      Object cfBundleName = PlistUtil.getSpecificSingleNode(parameters, "JVMOptions.JVMVersion");
-      System.out.println(cfBundleName);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
 
 }
