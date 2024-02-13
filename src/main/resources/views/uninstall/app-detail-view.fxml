@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fx:id="rightScrollableList"
@@ -19,41 +20,50 @@
     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
   </padding>
 
-  <!-- App详情信息 -->
-  <VBox minWidth="600">
-    <HBox HBox.hgrow="ALWAYS" fx:id="appDetailPane">
-      <padding>
-        <Insets left="40.0" top="10.0" right="40.0" bottom="10.0"/>
-      </padding>
-      <ImageView fx:id="appIcon" fitWidth="128" fitHeight="128"/>
-      <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" spacing="5">
+  <!-- 在JavaFX中，ScrollPane只能有一个直接的子元素，所以需要使用VBox作为introduction和detailContent的父节点容器 -->
+  <VBox minWidth="600" visible="true" managed="true" VBox.vgrow="ALWAYS">
+    <!-- App详情信息 -->
+    <VBox fx:id="introduction" alignment="CENTER"
+          minWidth="600" VBox.vgrow="ALWAYS"
+          visible="true" managed="true">
+      <Text text="🫲点击左侧列表选择要卸载的应用"/>
+    </VBox>
+    <!-- App详情信息 -->
+    <VBox fx:id="detailContent" minWidth="600" visible="false" managed="false">
+      <HBox HBox.hgrow="ALWAYS" fx:id="appDetailPane">
         <padding>
-          <Insets left="40.0" right="40.0"/>
+          <Insets left="40.0" top="10.0" right="40.0" bottom="10.0"/>
         </padding>
-        <Text fx:id="appName" text="名称">
-          <font>
-            <javafx.scene.text.Font name="System Bold" size="20.0"/>
-          </font>
-        </Text>
-        <Pane prefHeight="1" HBox.hgrow="ALWAYS" style="-fx-background-color: #e0e0e0;"/>
-        <HBox>
-          <Text text="安装时间："/>
-          <Text fx:id="appInstallTime" text="安装时间"/>
-        </HBox>
-        <Pane prefHeight="1" HBox.hgrow="ALWAYS" style="-fx-background-color: #e0e0e0;"/>
-        <HBox>
-          <Text text="应用大小："/>
-          <Text fx:id="appSize" text="大小"/>
-        </HBox>
-      </VBox>
-    </HBox>
+        <ImageView fx:id="appIcon" fitWidth="128" fitHeight="128"/>
+        <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" spacing="5">
+          <padding>
+            <Insets left="40.0" right="40.0"/>
+          </padding>
+          <Text fx:id="appName" text="名称">
+            <font>
+              <Font name="System Bold" size="20.0"/>
+            </font>
+          </Text>
+          <Pane prefHeight="1" HBox.hgrow="ALWAYS" style="-fx-background-color: #e0e0e0;"/>
+          <HBox>
+            <Text text="安装时间："/>
+            <Text fx:id="appInstallTime" text="安装时间"/>
+          </HBox>
+          <Pane prefHeight="1" HBox.hgrow="ALWAYS" style="-fx-background-color: #e0e0e0;"/>
+          <HBox>
+            <Text text="应用大小："/>
+            <Text fx:id="appSize" text="大小"/>
+          </HBox>
+        </VBox>
+      </HBox>
 
-    <!-- App分组文件信息 -->
-    <TreeView fx:id="appFileListView">
-      <TreeItem fx:id="appFileListItem">
-        <!-- 解析应用信息后通过代码拼装生成分组文件 -->
-      </TreeItem>
-    </TreeView>
+      <!-- App分组文件信息 -->
+      <TreeView fx:id="appFileListView">
+        <TreeItem fx:id="appFileListItem">
+          <!-- 解析应用信息后通过代码拼装生成分组文件 -->
+        </TreeItem>
+      </TreeView>
+    </VBox>
   </VBox>
 
 </ScrollPane>

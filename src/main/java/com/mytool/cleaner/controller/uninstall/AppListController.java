@@ -2,13 +2,8 @@ package com.mytool.cleaner.controller.uninstall;
 
 import com.mytool.cleaner.controller.BaseController;
 import com.mytool.cleaner.model.AppListModel;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
@@ -31,29 +26,20 @@ public class AppListController extends BaseController {
   private static List<AppListModel> listModelList = new ArrayList<>();
   @FXML
   private VBox appList;
-  private SplitPane contentPane;
-
-  private FXMLLoader detailFxmlLoader;
-  private ScrollPane detailView;
   private AppInfoController controller;
 
-  public void setContentPane(SplitPane contentPane) {
-    this.contentPane = contentPane;
+  public void setAppInfoController(AppInfoController controller) {
+    this.controller = controller;
   }
 
-  @Override
-  public void initialize() throws IOException {
-    detailFxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-detail-view.fxml"));
-    detailView = detailFxmlLoader.load();
-    controller = detailFxmlLoader.getController();
-
+  public void build() {
     File applicationsDir = new File(ROOT_PATH);
     File[] apps = applicationsDir.listFiles();
     if (apps != null) {
       Arrays.stream(apps).sorted(Comparator.comparing(File::getName));
       for (File app : apps) {
         if (app.isDirectory() && app.getName().endsWith(".app")) {
-          Button appNode = createAppNode(app);
+          Button appNode = createAppNode(controller, app);
           appList.getChildren().add(appNode);
         }
       }
@@ -63,7 +49,7 @@ public class AppListController extends BaseController {
     }
   }
 
-  private Button createAppNode(File app) {
+  private Button createAppNode(AppInfoController controller, File app) {
     Button appNode = new Button();
     appNode.setText(app.getName());
     appNode.setMaxWidth(Double.MAX_VALUE);
@@ -72,16 +58,10 @@ public class AppListController extends BaseController {
     model.name = app.getName().split("\\.")[0];
     model.file = app;
 
-
     appNode.setOnAction(event -> {
       try {
         controller.setAppListModel(model);
         controller.build();
-        ObservableList<Node> children = contentPane.getItems();
-        if (children.size() > 1 && children.get(1) != detailView) {
-          children.remove(1, children.size());
-          children.add(detailView);
-        }
       } catch (IOException e) {
         e.printStackTrace();
       }

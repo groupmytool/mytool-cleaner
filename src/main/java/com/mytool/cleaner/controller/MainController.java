@@ -1,6 +1,8 @@
 package com.mytool.cleaner.controller;
 
+import com.mytool.cleaner.controller.uninstall.AppInfoController;
 import com.mytool.cleaner.controller.uninstall.AppListController;
+import com.mytool.cleaner.utils.AppConfigParser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,11 +21,14 @@ public class MainController extends BaseController {
   @FXML
   public SplitPane contentPane;
 
-  /** 卸载模块缓存的视图 */
+  /**
+   * 卸载模块缓存的视图
+   */
   public List<Node> uninstallView = new ArrayList<>();
-  /** 磁盘分析模块缓存的视图 */
+  /**
+   * 磁盘分析模块缓存的视图
+   */
   public List<Node> diskSpaceView = new ArrayList<>();
-
 
   /**
    * 卸载模块
@@ -32,14 +37,18 @@ public class MainController extends BaseController {
   protected void onUninstallButtonClick() {
     if (uninstallView.size() == 0) {
       try {
+        AppConfigParser.parseAppConfig();
+
         FXMLLoader appListFxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-list-view.fxml"));
         ScrollPane appList = appListFxmlLoader.load();
         uninstallView.add(appList);
-        AppListController controller = appListFxmlLoader.getController();
-        controller.setContentPane(contentPane);
-        FXMLLoader introFxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-detail-introduction.fxml"));
-        ScrollPane intro = introFxmlLoader.load();
-        uninstallView.add(intro);
+        FXMLLoader detailFxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-detail-view.fxml"));
+        ScrollPane appDetail = detailFxmlLoader.load();
+        uninstallView.add(appDetail);
+        AppInfoController infoController = detailFxmlLoader.getController();
+        AppListController appListController = appListFxmlLoader.getController();
+        appListController.setAppInfoController(infoController);
+        appListController.build();
       } catch (IOException e) {
         e.printStackTrace();
       }

@@ -2,12 +2,12 @@ package com.mytool.cleaner.utils;
 
 import java.io.File;
 
-import static com.mytool.cleaner.utils.Constants.VENDOR;
+import static com.mytool.cleaner.utils.Constants.IDENTIFIER;
 
 public class CacheUtil {
 
-  public static final String CACHE_PATH = "%s/Library/Caches/%s".formatted(System.getProperty("user.home"), VENDOR);
-  public static final String ICNS_CACHE_PATH = "%s/icns".formatted(CACHE_PATH);
+  public static final String CACHE_PATH = "%s/Library/Caches/%s".formatted(System.getProperty("user.home"), IDENTIFIER);
+  public static final String ICON_CACHE_PATH = "%s/icns".formatted(CACHE_PATH);
 
   public static boolean filePathCheck(String pathName) {
     File file = new File(pathName);

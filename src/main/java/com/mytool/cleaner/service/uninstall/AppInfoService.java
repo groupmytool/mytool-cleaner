@@ -17,15 +17,8 @@ import java.util.HashMap;
 
 public class AppInfoService {
 
-  public static void setAppIcon(ImageView appIcon, AppListModel appListModel) throws FileNotFoundException {
+  public static void setAppIcon(ImageView appIcon,HashMap<String,Object> plist, AppListModel appListModel) throws FileNotFoundException {
     // 应用图标
-    HashMap<String, Object> plist = null;
-    try {
-      plist = PlistUtil.readPlist("%s/Contents/Info.plist".formatted(appListModel.file.getAbsolutePath()));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
     String icnsName;
     if (plist != null) {
       icnsName = plist.getOrDefault("CFBundleIconFile", "AppIcon").toString();

@@ -1,0 +1,11 @@
+[
+  {
+    "version": [
+      "<=2023.3.3"
+    ],
+    "support": [
+      "JetBrains",
+      "com.colliderli.iina"
+    ]
+  }
+]

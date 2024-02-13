@@ -40,17 +40,29 @@
       <artifactId>javafx-fxml</artifactId>
       <version>${javafx.version}</version>
     </dependency>
-    <!-- icons -->
+    <!-- icons: BSD license, https://github.com/haraldk/TwelveMonkeys -->
     <dependency>
       <groupId>com.twelvemonkeys.imageio</groupId>
       <artifactId>imageio-icns</artifactId>
       <version>3.9.4</version>
     </dependency>
-    <!-- plist -->
+    <!-- plist: open source library without restriction, https://github.com/3breadt/dd-plist -->
     <dependency>
       <groupId>com.googlecode.plist</groupId>
       <artifactId>dd-plist</artifactId>
       <version>1.27</version>
+    </dependency>
+    <!-- gson: Apache-2.0 license, https://github.com/google/gson -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+    <!-- java-semver: MIT license, https://github.com/zafarkhaja/jsemver -->
+    <dependency>
+      <groupId>com.github.zafarkhaja</groupId>
+      <artifactId>java-semver</artifactId>
+      <version>0.10.2</version>
     </dependency>
 
     <dependency>

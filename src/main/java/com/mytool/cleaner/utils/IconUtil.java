@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
-import static com.mytool.cleaner.utils.CacheUtil.ICNS_CACHE_PATH;
+import static com.mytool.cleaner.utils.CacheUtil.ICON_CACHE_PATH;
 import static com.mytool.cleaner.utils.CacheUtil.filePathCheck;
 import static com.mytool.cleaner.utils.CacheUtil.filePathCheckAndCreate;
 
@@ -27,8 +27,8 @@ public class IconUtil {
       sourceIcons += ".icns";
     }
     if (filePathCheck(sourceIcons)) {
-      filePathCheckAndCreate(ICNS_CACHE_PATH);
-      String outPath = "%s/%s.png".formatted(ICNS_CACHE_PATH, cacheName);
+      filePathCheckAndCreate(ICON_CACHE_PATH);
+      String outPath = "%s/%s.png".formatted(ICON_CACHE_PATH, cacheName);
       File out = new File(outPath);
       if (!out.exists()) {
         IconUtil.transform(new File(sourceIcons), "png", out);
