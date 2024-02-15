@@ -35,7 +35,7 @@ public class MainController extends BaseController {
    */
   @FXML
   protected void onUninstallButtonClick() {
-    if (uninstallView.size() == 0) {
+    if (uninstallView.isEmpty()) {
       try {
         AppConfigParser.parseAppConfig();
 
@@ -49,6 +49,8 @@ public class MainController extends BaseController {
         AppListController appListController = appListFxmlLoader.getController();
         appListController.setAppInfoController(infoController);
         appListController.build();
+        // 设置初始化的分割位置
+        contentPane.setDividerPosition(0, 0.3);
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -61,7 +63,7 @@ public class MainController extends BaseController {
    */
   @FXML
   protected void onDiskSpaceButtonClick() {
-    if (diskSpaceView.size() == 0) {
+    if (diskSpaceView.isEmpty()) {
       try {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/diskspace/disk-list-view.fxml"));
         ScrollPane diskSpace = fxmlLoader.load();

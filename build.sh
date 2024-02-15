@@ -1,5 +1,7 @@
 #!/bin/bash
 
+java -version
+
 app_name="MyTool CLeaner"
 main_module="com.mytool.cleaner"
 main_class="com.mytool.cleaner.CleanerApp"

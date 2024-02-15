@@ -23,7 +23,7 @@ public class BaseController {
 
   // 列表最大宽度
   public double getListMaxWidth() {
-    return LAYOUT_DEFAULT_WIDTH * 0.5;
+    return LAYOUT_MIN_WIDTH * 0.7;
   }
 
   public void initialize() throws IOException {

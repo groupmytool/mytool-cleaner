@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TreeItem?>
 <?import javafx.scene.control.TreeView?>
@@ -11,30 +12,29 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
-            fx:id="rightScrollableList"
+            fx:id="rightScrollPane"
             fx:controller="com.mytool.cleaner.controller.uninstall.AppInfoController"
-            fitToWidth="true" fitToHeight="true" vbarPolicy="NEVER"
-            minWidth="610">
+            fitToWidth="true" fitToHeight="true">
 
   <padding>
     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
   </padding>
 
   <!-- 在JavaFX中，ScrollPane只能有一个直接的子元素，所以需要使用VBox作为introduction和detailContent的父节点容器 -->
-  <VBox minWidth="600" visible="true" managed="true" VBox.vgrow="ALWAYS">
+  <VBox>
     <!-- App详情信息 -->
-    <VBox fx:id="introduction" alignment="CENTER"
-          minWidth="600" VBox.vgrow="ALWAYS"
-          visible="true" managed="true">
+    <!-- VBox.vgrow="ALWAYS": 父节点高度最大化，可以保证text位于中间位置-->
+    <VBox fx:id="introduction" VBox.vgrow="ALWAYS" alignment="CENTER">
       <Text text="🫲点击左侧列表选择要卸载的应用"/>
     </VBox>
     <!-- App详情信息 -->
-    <VBox fx:id="detailContent" minWidth="600" visible="false" managed="false">
-      <HBox HBox.hgrow="ALWAYS" fx:id="appDetailPane">
+    <VBox fx:id="detailContent" VBox.vgrow="ALWAYS" alignment="CENTER" visible="false" managed="false">
+      <HBox fx:id="appDetailPane">
         <padding>
-          <Insets left="40.0" top="10.0" right="40.0" bottom="10.0"/>
+          <Insets left="40.0" top="10.0" right="10.0" bottom="10.0"/>
         </padding>
         <ImageView fx:id="appIcon" fitWidth="128" fitHeight="128"/>
+        <!-- HBox.hgrow="ALWAYS": 分割线可以占用最大空间 -->
         <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" spacing="5">
           <padding>
             <Insets left="40.0" right="40.0"/>
@@ -44,12 +44,12 @@
               <Font name="System Bold" size="20.0"/>
             </font>
           </Text>
-          <Pane prefHeight="1" HBox.hgrow="ALWAYS" style="-fx-background-color: #e0e0e0;"/>
+          <Pane prefHeight="1" style="-fx-background-color: #e0e0e0;"/>
           <HBox>
             <Text text="安装时间："/>
             <Text fx:id="appInstallTime" text="安装时间"/>
           </HBox>
-          <Pane prefHeight="1" HBox.hgrow="ALWAYS" style="-fx-background-color: #e0e0e0;"/>
+          <Pane prefHeight="1" style="-fx-background-color: #e0e0e0;"/>
           <HBox>
             <Text text="应用大小："/>
             <Text fx:id="appSize" text="大小"/>
@@ -63,6 +63,15 @@
           <!-- 解析应用信息后通过代码拼装生成分组文件 -->
         </TreeItem>
       </TreeView>
+
+      <HBox fx:id="appUninstallBtn" alignment="CENTER">
+        <padding>
+          <Insets top="15.0" bottom="15.0"/>
+        </padding>
+        <Button text="卸载" minWidth="200" minHeight="40" style="-fx-background-radius: 15;">
+        </Button>
+      </HBox>
+
     </VBox>
   </VBox>
 

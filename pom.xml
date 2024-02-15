@@ -10,7 +10,8 @@
   <name>MyTool Cleaner</name>
 
   <properties>
-    <java.compiler.version>21</java.compiler.version>
+    <java.compiler.version>17</java.compiler.version>
+    <java.target.version>17</java.target.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>21.0.1</javafx.version>
@@ -87,8 +88,8 @@
         <version>3.11.0</version>
         <configuration>
           <source>${java.compiler.version}</source>
-          <target>${java.compiler.version}</target>
-          <release>${java.compiler.version}</release>
+          <target>${java.target.version}</target>
+          <release>${java.target.version}</release>
         </configuration>
       </plugin>
       <plugin>
@@ -110,6 +111,21 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>com.gluonhq</groupId>
+        <artifactId>gluonfx-maven-plugin</artifactId>
+        <version>${gluonfx.plugin.version}</version>
+        <configuration>
+          <target>host</target>
+          <mainClass>${main.class}</mainClass>
+          <graalvmHome>
+            /Library/Java/JavaVirtualMachines/graalvm-svm-java17-darwin-gluon-22.1.0.1-Final/Contents/Home
+            <!-- /Library/Java/JavaVirtualMachines/graalvm-b0aeed4bf5-java17-22.1.1.0-dev/Contents/Home -->
+          </graalvmHome>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 </project>

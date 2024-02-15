@@ -18,6 +18,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -46,7 +47,9 @@ public class AppInfoController extends BaseController {
   @FXML
   public VBox introduction;
   @FXML
-  private ScrollPane rightScrollableList;
+  public HBox appUninstallBtn;
+  @FXML
+  private ScrollPane rightScrollPane;
   @FXML
   private HBox appDetailPane;
   @FXML
@@ -211,8 +214,8 @@ public class AppInfoController extends BaseController {
     // 高度自适应
     appFileListView.prefHeightProperty().bind(
         Bindings.subtract(
-            rightScrollableList.heightProperty(),
-            appDetailPane.getBoundsInLocal().getHeight()
+            rightScrollPane.heightProperty(),
+            appDetailPane.getBoundsInLocal().getHeight() + appUninstallBtn.getBoundsInLocal().getHeight()
         )
     );
   }
