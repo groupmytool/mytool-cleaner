@@ -2,12 +2,12 @@ package com.mytool.cleaner.controller.uninstall;
 
 import com.github.zafarkhaja.semver.Version;
 import com.mytool.cleaner.controller.BaseController;
-import com.mytool.cleaner.model.AppConfig;
 import com.mytool.cleaner.model.AppListModel;
 import com.mytool.cleaner.service.uninstall.AppInfoService;
+import com.mytool.cleaner.utils.base.EnumListFile;
+import com.mytool.cleaner.utils.common.CollectionUtils;
 import com.mytool.cleaner.utils.file.AppConfigParser;
 import com.mytool.cleaner.utils.file.PlistUtil;
-import com.mytool.cleaner.utils.common.CollectionUtils;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -55,6 +56,44 @@ public class AppInfoController extends BaseController {
 
   private AppListModel appListModel;
 
+  // 查找符合条件的配置文件
+  private static HashMap<String, List<String>> getAppConfig(Object cfBundleIdentifier, HashMap<String, Object> plist) {
+    if (cfBundleIdentifier == null) {
+      return null;
+    }
+    HashMap<String, List<String>> appConf = null;
+
+    ArrayList<HashMap<String, List<String>>> appConfList = AppConfigParser.appConfMap.get(String.valueOf(cfBundleIdentifier));
+    if (appConfList == null) {
+      return null;
+    }
+
+    Object cfBundleShortVersion = plist.get("CFBundleShortVersionString");
+    Version parseVersion = cfBundleShortVersion != null ? Version.parse(cfBundleShortVersion.toString()) : null;
+
+    HashMap<String, List<String>> commonConfig = null;
+    // 优先找匹配版本的配置文件
+    foundConfig:
+    for (HashMap<String, List<String>> appConfig : appConfList) {
+      List<String> versionList = appConfig.get(EnumListFile.APP_VERSION.getAppConfigName());
+      if (CollectionUtils.isEmpty(versionList)) {
+        commonConfig = appConfig;
+      } else if (parseVersion != null) {
+        for (String v : versionList) {
+          if (parseVersion.satisfies(v)) {
+            appConf = appConfig;
+          }
+          break foundConfig;
+        }
+      }
+    }
+    // 判断是否找到匹配版本的配置文件，如果没有找到则使用通用配置文件
+    if (appConf == null && commonConfig != null) {
+      appConf = commonConfig;
+    }
+    return appConf;
+  }
+
   public void setAppListModel(AppListModel appListModel) {
     this.appListModel = appListModel;
   }
@@ -82,99 +121,86 @@ public class AppInfoController extends BaseController {
     appFileListView.setCellFactory(CheckBoxTreeCell.forTreeView());
 
     appFileListItem.setExpanded(true);
-    ObservableList<TreeItem<String>> titleGroup = appFileListItem.getChildren();
-    titleGroup.clear();
+    ObservableList<TreeItem<String>> titleTreeItem = appFileListItem.getChildren();
+    titleTreeItem.clear();
 
-    Object cfBundleIdentifier = plist.get("CFBundleIdentifier");
+    Object cfBundleIdentifier = plist != null ? plist.get("CFBundleIdentifier") : null;
 
-    AppConfig appConf = getAppConfig(cfBundleIdentifier, plist);
+    HashMap<String, List<String>> appConf = getAppConfig(cfBundleIdentifier, plist);
 
-    TreeItem<String> runnableTitleItem = initExpandedTreeItem("可执行文件");
-    titleGroup.add(runnableTitleItem);
+    // 可执行文件
+    listRunnableFiles(titleTreeItem);
+    // 应用程序支持
+    listFiles(EnumListFile.APP_SUPPORT, titleTreeItem, cfBundleIdentifier, appConf);
+    // 缓存
+    listFiles(EnumListFile.APP_CACHE, titleTreeItem, cfBundleIdentifier, appConf);
+    // 日志
+    listFiles(EnumListFile.APP_LOG, titleTreeItem, cfBundleIdentifier, appConf);
 
-    TreeItem<String> runnableChildItem = initExpandedTreeItem(appListModel.file.getName());
-    runnableTitleItem.getChildren().add(runnableChildItem);
-
-    // 应用程序支持：~/Library/Application Support/JetBrains
-    TreeItem<String> supportTitleItem = initExpandedTreeItem("应用程序支持");
-    titleGroup.add(supportTitleItem);
-
-    ArrayList<String> supportList = new ArrayList<>();
-    supportList.add(cfBundleIdentifier.toString());
-
-    if (appConf != null) {
-      supportList.addAll(appConf.support);
-    }
-    if (!supportList.isEmpty()) {
-      for (String support : supportList) {
-        File file = new File(String.format("%s/Library/Application Support/%s", System.getProperty("user.home"), support));
-        if (file.exists()) {
-          TreeItem<String> supportChildItem = initClumpedTreeItem(file.getName());
-          supportTitleItem.getChildren().add(supportChildItem);
-
-          ObservableList<TreeItem<String>> supportChildItemChildren = supportChildItem.getChildren();
-          for (File subFile : file.listFiles()) {
-            TreeItem<String> subItem = initClumpedTreeItem(subFile.getName());
-            supportChildItemChildren.add(subItem);
-          }
-        }
-      }
-    }
-
-    TreeItem<String> cacheTitleItem = initExpandedTreeItem("缓存");
-    titleGroup.add(cacheTitleItem);
 
     TreeItem<String> preferenceTitleItem = initExpandedTreeItem("偏好设置");
-    titleGroup.add(preferenceTitleItem);
-
-    TreeItem<String> logTitleItem = initExpandedTreeItem("日志");
-    titleGroup.add(logTitleItem);
+    titleTreeItem.add(preferenceTitleItem);
 
     // TreeItem<String> iconTitleItem = initExpandedTreeItem("Dock图标");
-    // titleGroup.add(iconTitleItem);
+    // titleTreeItem.add(iconTitleItem);
 
     TreeItem<String> fileTypeTitleItem = initExpandedTreeItem("支持的文稿类型");
-    titleGroup.add(fileTypeTitleItem);
+    titleTreeItem.add(fileTypeTitleItem);
 
     showDetail();
 
   }
 
-  // 查找符合条件的配置文件
-  private static AppConfig getAppConfig(Object cfBundleIdentifier, HashMap<String, Object> plist) {
-    if (cfBundleIdentifier == null) {
-      return null;
+  private void listFiles(EnumListFile listFile, ObservableList<TreeItem<String>> titleTreeItem,
+                         Object cfBundleIdentifier, HashMap<String, List<String>> appConf) {
+    TreeItem<String> cacheTitleItem = initExpandedTreeItem(listFile.getAppDisplayName());
+    titleTreeItem.add(cacheTitleItem);
+    ArrayList<String> pathNameList = new ArrayList<>();
+    if (cfBundleIdentifier != null) {
+      pathNameList.add(cfBundleIdentifier.toString());
     }
-    AppConfig appConf = null;
-
-    ArrayList<AppConfig> appConfList = AppConfigParser.appConfMap.get(cfBundleIdentifier);
-    if (appConfList == null) {
-      return null;
-    }
-
-    Object cfBundleShortVersion = plist.get("CFBundleShortVersionString");
-    Version parseVersion = cfBundleShortVersion != null ? Version.parse(cfBundleShortVersion.toString()) : null;
-
-    AppConfig commonConfig = null;
-    // 优先找匹配版本的配置文件
-    foundConfig:
-    for (AppConfig appConfig : appConfList) {
-      if (CollectionUtils.isEmpty(appConfig.version)) {
-        commonConfig = appConfig;
-      } else if (parseVersion != null) {
-        for (String v : appConfig.version) {
-          if (parseVersion.satisfies(v)) {
-            appConf = appConfig;
-          }
-          break foundConfig;
-        }
+    if (appConf != null) {
+      List<String> identifierList = appConf.get(EnumListFile.APP_IDENTIFIER.getAppConfigName());
+      if (CollectionUtils.isNotEmpty(identifierList)) {
+        pathNameList.addAll(identifierList);
+      }
+      List<String> configList = appConf.get(listFile.getAppConfigName());
+      if (CollectionUtils.isNotEmpty(configList)) {
+        pathNameList.addAll(configList);
       }
     }
-    // 判断是否找到匹配版本的配置文件，如果没有找到则使用通用配置文件
-    if (appConf == null && commonConfig != null) {
-      appConf = commonConfig;
+    if (CollectionUtils.isNotEmpty(pathNameList)) {
+      for (String pathName : pathNameList) {
+        // TODO: 区分处理绝对路径和相对路径
+        File file = new File(listFile.getAppDefaultPath() + pathName);
+        listPackageFiles(cacheTitleItem, file);
+      }
     }
-    return appConf;
+  }
+
+  private void listPackageFiles(TreeItem<String> titleItem, File packageFile) {
+    if (!packageFile.exists()) {
+      return;
+    }
+    TreeItem<String> childItem = initClumpedTreeItem(packageFile.getName());
+    titleItem.getChildren().add(childItem);
+    File[] files = packageFile.listFiles();
+    if (files == null) {
+      return;
+    }
+    ObservableList<TreeItem<String>> childItemChildren = childItem.getChildren();
+    for (File subFile : files) {
+      TreeItem<String> subItem = initClumpedTreeItem(subFile.getName());
+      childItemChildren.add(subItem);
+    }
+  }
+
+  private void listRunnableFiles(ObservableList<TreeItem<String>> titleTreeItem) {
+    TreeItem<String> runnableTitleItem = initExpandedTreeItem("可执行文件");
+    titleTreeItem.add(runnableTitleItem);
+
+    TreeItem<String> runnableChildItem = initExpandedTreeItem(appListModel.file.getName());
+    runnableTitleItem.getChildren().add(runnableChildItem);
   }
 
   public void showDetail() {

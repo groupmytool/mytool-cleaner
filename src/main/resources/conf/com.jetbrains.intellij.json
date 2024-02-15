@@ -1,8 +1,16 @@
 [
   {
+    "identifier": [
+      "JetBrains"
+    ],
     "support": [
-      "JetBrains",
       "com.colliderli.iina"
+    ],
+    "cache": [
+      "com.vmware.fusion"
+    ],
+    "log": [
+      "VMware Fusion"
     ]
   }
 ]

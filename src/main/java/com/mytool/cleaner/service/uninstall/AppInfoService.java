@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class AppInfoService {
 
-  public static void setAppIcon(ImageView appIcon,HashMap<String,Object> plist, AppListModel appListModel) throws FileNotFoundException {
+  public static void setAppIcon(ImageView appIcon, HashMap<String, Object> plist, AppListModel appListModel) throws FileNotFoundException {
     // 应用图标
     String icnsName;
     if (plist != null) {
@@ -27,7 +27,7 @@ public class AppInfoService {
     appIcon.setImage(IconUtil.getIcon(sourceIcons, appListModel.name));
   }
 
-  public static void setAppName(Text appName, AppListModel appListModel){
+  public static void setAppName(Text appName, AppListModel appListModel) {
     appName.setText(appListModel.name);
   }
 
