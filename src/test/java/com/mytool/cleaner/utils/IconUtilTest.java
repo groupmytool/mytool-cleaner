@@ -9,7 +9,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import static com.mytool.cleaner.utils.Constants.ROOT_PATH;
+import static com.mytool.cleaner.utils.base.Constants.APP_ROOT_PATH;
 
 class IconUtilTest {
 
@@ -19,7 +19,7 @@ class IconUtilTest {
 
   @Test
   void findIcons() throws IOException {
-    File applicationsDir = new File(ROOT_PATH);
+    File applicationsDir = new File(APP_ROOT_PATH);
     File[] apps = applicationsDir.listFiles();
     Arrays.stream(apps).sorted(Comparator.comparing(File::getName));
     for (File app : apps) {

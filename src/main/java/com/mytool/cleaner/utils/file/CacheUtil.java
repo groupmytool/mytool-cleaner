@@ -1,8 +1,8 @@
-package com.mytool.cleaner.utils;
+package com.mytool.cleaner.utils.file;
 
 import java.io.File;
 
-import static com.mytool.cleaner.utils.Constants.IDENTIFIER;
+import static com.mytool.cleaner.utils.base.Constants.IDENTIFIER;
 
 public class CacheUtil {
 

@@ -1,4 +1,4 @@
-package com.mytool.cleaner.utils;
+package com.mytool.cleaner.utils.file;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

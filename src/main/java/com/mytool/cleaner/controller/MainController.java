@@ -2,7 +2,7 @@ package com.mytool.cleaner.controller;
 
 import com.mytool.cleaner.controller.uninstall.AppInfoController;
 import com.mytool.cleaner.controller.uninstall.AppListController;
-import com.mytool.cleaner.utils.AppConfigParser;
+import com.mytool.cleaner.utils.file.AppConfigParser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

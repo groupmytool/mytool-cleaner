@@ -5,8 +5,9 @@ import com.mytool.cleaner.controller.BaseController;
 import com.mytool.cleaner.model.AppConfig;
 import com.mytool.cleaner.model.AppListModel;
 import com.mytool.cleaner.service.uninstall.AppInfoService;
-import com.mytool.cleaner.utils.AppConfigParser;
-import com.mytool.cleaner.utils.PlistUtil;
+import com.mytool.cleaner.utils.file.AppConfigParser;
+import com.mytool.cleaner.utils.file.PlistUtil;
+import com.mytool.cleaner.utils.common.CollectionUtils;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -84,27 +85,9 @@ public class AppInfoController extends BaseController {
     ObservableList<TreeItem<String>> titleGroup = appFileListItem.getChildren();
     titleGroup.clear();
 
-    // 准备工作：查找符合条件的配置文件
-    AppConfig appConf = null;
     Object cfBundleIdentifier = plist.get("CFBundleIdentifier");
-    if (cfBundleIdentifier != null) {
-      ArrayList<AppConfig> appConfList = AppConfigParser.appConfMap.get(cfBundleIdentifier);
-      if (appConfList != null && plist.get("CFBundleShortVersionString") != null) {
-        foundConfig:
-        for (AppConfig appConfig : appConfList) {
-          String cfBundleShortVersionString = plist.get("CFBundleShortVersionString").toString();
-          Version parseVersion = Version.parse(cfBundleShortVersionString);
-          for (String v : appConfig.version) {
-            if (parseVersion.satisfies(v)) {
-              appConf = appConfig;
-              System.out.println(cfBundleShortVersionString);
-            }
-            break foundConfig;
-          }
-          System.out.println(appConfig);
-        }
-      }
-    }
+
+    AppConfig appConf = getAppConfig(cfBundleIdentifier, plist);
 
     TreeItem<String> runnableTitleItem = initExpandedTreeItem("可执行文件");
     titleGroup.add(runnableTitleItem);
@@ -147,14 +130,51 @@ public class AppInfoController extends BaseController {
     TreeItem<String> logTitleItem = initExpandedTreeItem("日志");
     titleGroup.add(logTitleItem);
 
-    TreeItem<String> iconTitleItem = initExpandedTreeItem("Dock图标");
-    titleGroup.add(iconTitleItem);
+    // TreeItem<String> iconTitleItem = initExpandedTreeItem("Dock图标");
+    // titleGroup.add(iconTitleItem);
 
     TreeItem<String> fileTypeTitleItem = initExpandedTreeItem("支持的文稿类型");
     titleGroup.add(fileTypeTitleItem);
 
     showDetail();
 
+  }
+
+  // 查找符合条件的配置文件
+  private static AppConfig getAppConfig(Object cfBundleIdentifier, HashMap<String, Object> plist) {
+    if (cfBundleIdentifier == null) {
+      return null;
+    }
+    AppConfig appConf = null;
+
+    ArrayList<AppConfig> appConfList = AppConfigParser.appConfMap.get(cfBundleIdentifier);
+    if (appConfList == null) {
+      return null;
+    }
+
+    Object cfBundleShortVersion = plist.get("CFBundleShortVersionString");
+    Version parseVersion = cfBundleShortVersion != null ? Version.parse(cfBundleShortVersion.toString()) : null;
+
+    AppConfig commonConfig = null;
+    // 优先找匹配版本的配置文件
+    foundConfig:
+    for (AppConfig appConfig : appConfList) {
+      if (CollectionUtils.isEmpty(appConfig.version)) {
+        commonConfig = appConfig;
+      } else if (parseVersion != null) {
+        for (String v : appConfig.version) {
+          if (parseVersion.satisfies(v)) {
+            appConf = appConfig;
+          }
+          break foundConfig;
+        }
+      }
+    }
+    // 判断是否找到匹配版本的配置文件，如果没有找到则使用通用配置文件
+    if (appConf == null && commonConfig != null) {
+      appConf = commonConfig;
+    }
+    return appConf;
   }
 
   public void showDetail() {

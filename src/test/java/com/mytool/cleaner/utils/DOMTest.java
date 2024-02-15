@@ -1,5 +1,6 @@
 package com.mytool.cleaner.utils;
 
+import com.mytool.cleaner.utils.file.PlistUtil;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

@@ -1,4 +1,4 @@
-package com.mytool.cleaner.utils;
+package com.mytool.cleaner.utils.file;
 
 import javafx.scene.image.Image;
 
@@ -13,9 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
-import static com.mytool.cleaner.utils.CacheUtil.ICON_CACHE_PATH;
-import static com.mytool.cleaner.utils.CacheUtil.filePathCheck;
-import static com.mytool.cleaner.utils.CacheUtil.filePathCheckAndCreate;
+import static com.mytool.cleaner.utils.file.CacheUtil.ICON_CACHE_PATH;
+import static com.mytool.cleaner.utils.file.CacheUtil.filePathCheck;
+import static com.mytool.cleaner.utils.file.CacheUtil.filePathCheckAndCreate;
 
 /**
  * macOS icon util

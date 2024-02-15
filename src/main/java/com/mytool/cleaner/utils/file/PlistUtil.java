@@ -1,4 +1,4 @@
-package com.mytool.cleaner.utils;
+package com.mytool.cleaner.utils.file;
 
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;

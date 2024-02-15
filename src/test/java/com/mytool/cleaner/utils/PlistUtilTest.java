@@ -1,5 +1,6 @@
 package com.mytool.cleaner.utils;
 
+import com.mytool.cleaner.utils.file.PlistUtil;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

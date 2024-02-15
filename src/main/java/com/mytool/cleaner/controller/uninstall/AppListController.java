@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.mytool.cleaner.utils.Constants.ROOT_PATH;
+import static com.mytool.cleaner.utils.base.Constants.APP_ROOT_PATH;
 
 /**
  * App列表信息控制器。
@@ -33,7 +33,7 @@ public class AppListController extends BaseController {
   }
 
   public void build() {
-    File applicationsDir = new File(ROOT_PATH);
+    File applicationsDir = new File(APP_ROOT_PATH);
     File[] apps = applicationsDir.listFiles();
     if (apps != null) {
       Arrays.stream(apps).sorted(Comparator.comparing(File::getName));

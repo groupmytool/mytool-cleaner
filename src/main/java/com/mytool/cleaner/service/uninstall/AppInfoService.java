@@ -1,9 +1,9 @@
 package com.mytool.cleaner.service.uninstall;
 
 import com.mytool.cleaner.model.AppListModel;
-import com.mytool.cleaner.utils.AppSizeCalculator;
-import com.mytool.cleaner.utils.IconUtil;
-import com.mytool.cleaner.utils.PlistUtil;
+import com.mytool.cleaner.utils.common.DateUtils;
+import com.mytool.cleaner.utils.file.AppSizeCalculator;
+import com.mytool.cleaner.utils.file.IconUtil;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
@@ -11,8 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class AppInfoService {
@@ -46,10 +44,9 @@ public class AppInfoService {
     appSize.setText(sizeText);
   }
 
-  private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
   public static void setCreateTime(Text appInstallTime, AppListModel appListModel) throws IOException {
     BasicFileAttributes attr = Files.readAttributes(appListModel.file.toPath(), BasicFileAttributes.class);
-    appInstallTime.setText(formatter.format(attr.creationTime().toInstant()));
+    appInstallTime.setText(DateUtils.formatTime(attr.creationTime()));
   }
 
 }

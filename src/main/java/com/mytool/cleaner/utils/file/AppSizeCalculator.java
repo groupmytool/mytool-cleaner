@@ -1,4 +1,4 @@
-package com.mytool.cleaner.utils;
+package com.mytool.cleaner.utils.file;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
