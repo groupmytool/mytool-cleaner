@@ -7,8 +7,6 @@ import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -22,7 +20,7 @@ import static com.mytool.cleaner.utils.file.CacheUtil.filePathCheckAndCreate;
  */
 public class IconUtil {
 
-  public static Image getIcon(String sourceIcons, String cacheName) throws FileNotFoundException {
+  public static Image getIcon(String sourceIcons, String cacheName) {
     if (!sourceIcons.endsWith(".icns")) {
       sourceIcons += ".icns";
     }
@@ -33,7 +31,7 @@ public class IconUtil {
       if (!out.exists()) {
         IconUtil.transform(new File(sourceIcons), "png", out);
       }
-      return new Image(new FileInputStream(out));
+      return new Image(outPath);
     } else {
       InputStream icon = IconUtil.class.getResourceAsStream("/images/default-icon.png");
       return new Image(Objects.requireNonNull(icon));

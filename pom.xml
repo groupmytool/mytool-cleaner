@@ -37,11 +37,6 @@
       <artifactId>javafx-controls</artifactId>
       <version>${javafx.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-fxml</artifactId>
-      <version>${javafx.version}</version>
-    </dependency>
     <!-- icons: BSD license, https://github.com/haraldk/TwelveMonkeys -->
     <dependency>
       <groupId>com.twelvemonkeys.imageio</groupId>
@@ -100,6 +95,49 @@
           <release>${java.target.version}</release>
         </configuration>
       </plugin>
+
+      <!-- 手动打包配置开始 -->
+      <!-- 主程序Jar入口 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <outputDirectory>${project.build.directory}/libs/launch</outputDirectory>
+          <finalName>${project.name}</finalName>
+          <archive>
+            <manifest>
+              <mainClass>${main.class}</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <!-- 依赖Jar仓库 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.6.1</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/libs/javafx</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+              <includeScope>compile</includeScope>
+              <includeScope>runtime</includeScope>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- 手动打包配置结束 -->
+
+      <!-- 使用了自动模块jar包，不能直接使用此插件打包，需要特殊处理jar包依赖后使用 -->
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
@@ -120,22 +158,24 @@
         </executions>
       </plugin>
 
+      <!-- 打包native镜像 -->
       <plugin>
         <groupId>com.gluonhq</groupId>
         <artifactId>gluonfx-maven-plugin</artifactId>
         <version>${gluonfx.plugin.version}</version>
         <configuration>
           <target>host</target>
-          <mainClass>${main.class}</mainClass>
-          <graalvmHome>
-            /Library/Java/JavaVirtualMachines/graalvm-svm-java17-darwin-gluon-22.1.0.1-Final/Contents/Home
-          </graalvmHome>
-          <reflectionList>
-            <list>com.mytool.cleaner.controller.MainController</list>
-            <list>com.mytool.cleaner.controller.uninstall.ListController</list>
-            <list>com.mytool.cleaner.controller.uninstall.InfoController</list>
-            <list>com.mytool.cleaner.controller.diskspace.ListController</list>
-          </reflectionList>
+          <mainClass>${main.module}/${main.class}</mainClass>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <!-- javafx 项目不需要install到maven仓库，所以跳过install -->
+          <skip>true</skip>
         </configuration>
       </plugin>
 

@@ -1,19 +1,17 @@
 package com.mytool.cleaner.model;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-/**
- * App列表信息模型
- */
 public class AppListModel {
-
-  // 原始应用文件
-  public File file;
-  // 应用名称
-  public String name;
-  // 中文名称
-  public String chineseName;
-  // 英文名称
-  public String englishName;
+  private File file;
+  // 基本信息
+  private String icon;
+  private String name;
+  private String installTime;
+  private String size;
+  // 文件列表
+  private HashMap<String, HashMap<String, ArrayList<AppListFileModel>>> files;
 
 }

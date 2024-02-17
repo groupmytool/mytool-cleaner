@@ -2,7 +2,6 @@ package com.mytool.cleaner.controller;
 
 import java.io.IOException;
 
-import static com.mytool.cleaner.utils.base.Constants.LAYOUT_DEFAULT_WIDTH;
 import static com.mytool.cleaner.utils.base.Constants.LAYOUT_MIN_WIDTH;
 
 public class BaseController {
