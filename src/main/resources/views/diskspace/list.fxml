@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.mytool.cleaner.controller.diskspace.DiskListController"
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.mytool.cleaner.controller.diskspace.ListController"
             fitToWidth="true" fitToHeight="true" vbarPolicy="AS_NEEDED"
             minWidth="${controller.listMinWidth}" maxWidth="${controller.listMaxWidth}">
 

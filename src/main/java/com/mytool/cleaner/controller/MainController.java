@@ -1,7 +1,7 @@
 package com.mytool.cleaner.controller;
 
-import com.mytool.cleaner.controller.uninstall.AppInfoController;
-import com.mytool.cleaner.controller.uninstall.AppListController;
+import com.mytool.cleaner.controller.uninstall.InfoController;
+import com.mytool.cleaner.controller.uninstall.ListController;
 import com.mytool.cleaner.utils.file.AppConfigParser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,16 +39,16 @@ public class MainController extends BaseController {
       try {
         AppConfigParser.parseAppConfig();
 
-        FXMLLoader appListFxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-list-view.fxml"));
+        FXMLLoader appListFxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/list.fxml"));
         ScrollPane appList = appListFxmlLoader.load();
         uninstallView.add(appList);
-        FXMLLoader detailFxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/app-detail-view.fxml"));
+        FXMLLoader detailFxmlLoader = new FXMLLoader(getClass().getResource("/views/uninstall/detail.fxml"));
         ScrollPane appDetail = detailFxmlLoader.load();
         uninstallView.add(appDetail);
-        AppInfoController infoController = detailFxmlLoader.getController();
-        AppListController appListController = appListFxmlLoader.getController();
-        appListController.setAppInfoController(infoController);
-        appListController.build();
+        InfoController infoController = detailFxmlLoader.getController();
+        ListController listController = appListFxmlLoader.getController();
+        listController.setAppInfoController(infoController);
+        listController.build();
         // 设置初始化的分割位置
         contentPane.setDividerPosition(0, 0.3);
       } catch (IOException e) {
@@ -65,7 +65,7 @@ public class MainController extends BaseController {
   protected void onDiskSpaceButtonClick() {
     if (diskSpaceView.isEmpty()) {
       try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/diskspace/disk-list-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/diskspace/list.fxml"));
         ScrollPane diskSpace = fxmlLoader.load();
         diskSpaceView.add(diskSpace);
       } catch (IOException e) {

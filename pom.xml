@@ -16,6 +16,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>21.0.1</javafx.version>
 
+    <logback.version>1.3.0-alpha14</logback.version>
     <junit.version>5.9.2</junit.version>
 
     <javafx.plugin.version>0.0.8</javafx.plugin.version>
@@ -64,6 +65,13 @@
       <groupId>com.github.zafarkhaja</groupId>
       <artifactId>java-semver</artifactId>
       <version>0.10.2</version>
+    </dependency>
+
+    <!-- 日志-->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
     </dependency>
 
     <dependency>
@@ -121,8 +129,13 @@
           <mainClass>${main.class}</mainClass>
           <graalvmHome>
             /Library/Java/JavaVirtualMachines/graalvm-svm-java17-darwin-gluon-22.1.0.1-Final/Contents/Home
-            <!-- /Library/Java/JavaVirtualMachines/graalvm-b0aeed4bf5-java17-22.1.1.0-dev/Contents/Home -->
           </graalvmHome>
+          <reflectionList>
+            <list>com.mytool.cleaner.controller.MainController</list>
+            <list>com.mytool.cleaner.controller.uninstall.ListController</list>
+            <list>com.mytool.cleaner.controller.uninstall.InfoController</list>
+            <list>com.mytool.cleaner.controller.diskspace.ListController</list>
+          </reflectionList>
         </configuration>
       </plugin>
 

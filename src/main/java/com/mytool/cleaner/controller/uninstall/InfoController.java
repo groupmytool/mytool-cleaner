@@ -3,7 +3,7 @@ package com.mytool.cleaner.controller.uninstall;
 import com.github.zafarkhaja.semver.Version;
 import com.mytool.cleaner.controller.BaseController;
 import com.mytool.cleaner.model.AppListModel;
-import com.mytool.cleaner.service.uninstall.AppInfoService;
+import com.mytool.cleaner.service.uninstall.InfoService;
 import com.mytool.cleaner.utils.base.EnumListFile;
 import com.mytool.cleaner.utils.common.CollectionUtils;
 import com.mytool.cleaner.utils.file.AppConfigParser;
@@ -18,7 +18,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -32,7 +31,7 @@ import java.util.List;
 /**
  * App详细信息控制器
  */
-public class AppInfoController extends BaseController {
+public class InfoController extends BaseController {
 
   @FXML
   public ImageView appIcon;
@@ -110,14 +109,14 @@ public class AppInfoController extends BaseController {
     }
 
     // 应用图标
-    AppInfoService.setAppIcon(appIcon, plist, appListModel);
+    InfoService.setAppIcon(appIcon, plist, appListModel);
     // 应用名称
-    AppInfoService.setAppName(appName, appListModel);
+    InfoService.setAppName(appName, appListModel);
 
     // 应用大小
-    AppInfoService.setAppSize(appSize, appListModel);
+    InfoService.setAppSize(appSize, appListModel);
     // 创建时间
-    AppInfoService.setCreateTime(appInstallTime, appListModel);
+    InfoService.setCreateTime(appInstallTime, appListModel);
 
     // app file list
     appFileListView.setShowRoot(false);

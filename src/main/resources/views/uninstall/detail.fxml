@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Text?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fx:id="rightScrollPane"
-            fx:controller="com.mytool.cleaner.controller.uninstall.AppInfoController"
+            fx:controller="com.mytool.cleaner.controller.uninstall.InfoController"
             fitToWidth="true" fitToHeight="true">
 
   <padding>

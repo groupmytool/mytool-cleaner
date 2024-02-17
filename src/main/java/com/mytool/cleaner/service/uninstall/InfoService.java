@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 
-public class AppInfoService {
+public class InfoService {
 
   public static void setAppIcon(ImageView appIcon, HashMap<String, Object> plist, AppListModel appListModel) throws FileNotFoundException {
     // 应用图标

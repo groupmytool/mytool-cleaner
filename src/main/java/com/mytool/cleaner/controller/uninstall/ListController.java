@@ -20,15 +20,15 @@ import static com.mytool.cleaner.utils.base.Constants.APP_ROOT_PATH;
  * 1、获取/Applications目录下的所有应用
  * 2、获取应用的名称、大小、安装时间等基础信息并存储到listModelList中
  */
-public class AppListController extends BaseController {
+public class ListController extends BaseController {
 
   // TODO 排序、搜索
   private static List<AppListModel> listModelList = new ArrayList<>();
   @FXML
   private VBox appList;
-  private AppInfoController controller;
+  private InfoController controller;
 
-  public void setAppInfoController(AppInfoController controller) {
+  public void setAppInfoController(InfoController controller) {
     this.controller = controller;
   }
 
@@ -49,7 +49,7 @@ public class AppListController extends BaseController {
     }
   }
 
-  private Button createAppNode(AppInfoController controller, File app) {
+  private Button createAppNode(InfoController controller, File app) {
     Button appNode = new Button();
     appNode.setText(app.getName());
     appNode.setMaxWidth(Double.MAX_VALUE);
