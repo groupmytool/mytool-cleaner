@@ -2,6 +2,7 @@ package com.mytool.cleaner.view.uninstall.info;
 
 import com.mytool.cleaner.model.AppViewModel;
 import com.mytool.cleaner.utils.file.IconUtil;
+import com.mytool.cleaner.view.component.SplitLine;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
@@ -50,7 +51,7 @@ public class AppInfoDetailHBox extends HBox {
     appName.textProperty().bind(infoModel.getName());
     appInfo.getChildren().add(appName);
     // 分割线
-    Pane splitLine1 = getSplitLine();
+    Pane splitLine1 = new SplitLine();
     appInfo.getChildren().add(splitLine1);
     // 安装时间
     HBox timeBox = new HBox();
@@ -62,7 +63,7 @@ public class AppInfoDetailHBox extends HBox {
     timeValue.textProperty().bind(infoModel.getInstallTime());
     timeBox.getChildren().add(timeValue);
     // 分割线
-    Pane splitLine2 = getSplitLine();
+    Pane splitLine2 = new SplitLine();
     appInfo.getChildren().add(splitLine2);
     // 应用大小
     HBox sizeBox = new HBox();
@@ -75,13 +76,6 @@ public class AppInfoDetailHBox extends HBox {
     sizeValue.textProperty().bind(infoModel.getSize());
 
     return appInfo;
-  }
-
-  private static Pane getSplitLine() {
-    Pane splitLine = new Pane();
-    splitLine.setPrefHeight(1);
-    splitLine.setStyle("-fx-background-color: #e0e0e0;");
-    return splitLine;
   }
 
 }
