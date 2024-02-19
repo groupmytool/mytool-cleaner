@@ -1,8 +1,10 @@
 package com.mytool.cleaner.view.uninstall.info;
 
 import com.mytool.cleaner.model.AppViewModel;
+import com.mytool.cleaner.utils.file.FontUtil;
 import com.mytool.cleaner.utils.file.IconUtil;
 import com.mytool.cleaner.view.component.SplitLine;
+import com.mytool.cleaner.view.component.FontText;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
@@ -46,7 +48,7 @@ public class AppInfoDetailHBox extends HBox {
     appInfo.setSpacing(5);
     // 名称
     Text appName = new Text();
-    Font font = new Font("System Bold", 30);
+    Font font = FontUtil.getBoldFont(30);
     appName.setFont(font);
     appName.textProperty().bind(infoModel.getName());
     appInfo.getChildren().add(appName);
@@ -57,9 +59,9 @@ public class AppInfoDetailHBox extends HBox {
     HBox timeBox = new HBox();
     appInfo.getChildren().add(timeBox);
 
-    Text timeTitle = new Text("安装时间：");
+    Text timeTitle = new FontText("安装时间：");
     timeBox.getChildren().add(timeTitle);
-    Text timeValue = new Text();
+    Text timeValue = new FontText();
     timeValue.textProperty().bind(infoModel.getInstallTime());
     timeBox.getChildren().add(timeValue);
     // 分割线
@@ -69,9 +71,9 @@ public class AppInfoDetailHBox extends HBox {
     HBox sizeBox = new HBox();
     appInfo.getChildren().add(sizeBox);
 
-    Text sizeTitle = new Text("应用大小：");
+    Text sizeTitle = new FontText("应用大小：");
     sizeBox.getChildren().add(sizeTitle);
-    Text sizeValue = new Text();
+    Text sizeValue = new FontText();
     sizeBox.getChildren().add(sizeValue);
     sizeValue.textProperty().bind(infoModel.getSize());
 
