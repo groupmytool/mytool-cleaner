@@ -5,7 +5,7 @@ WORK_DIR=$(pwd)
 cd ..
 
 # change to your path
-export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-community-openjdk-17.0.8+7.1/Contents/Home
+export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-svm-java17-darwin-gluon-22.1.0.1-Final/Contents/Home
 export PATH=$GRAALVM_HOME/lib/installer/bin:$PATH
 export PATH=$GRAALVM_HOME/lib/svm/bin:$PATH
 

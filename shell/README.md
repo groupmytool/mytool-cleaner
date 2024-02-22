@@ -52,13 +52,12 @@ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 ```
 
 ### Java
-* [GraalVM for JDK 17 Community 17.0.8](https://github.com/graalvm/graalvm-ce-builds/releases/tag/jdk-17.0.8)
 
-> Requirement: GraalVM for JDK 17 Community 17.0.8
+> Requirement: [GraalVM CE Gluon 22.1.0.1-Final](https://github.com/gluonhq/graal/releases/tag/gluon-22.1.0.1-Final)
 
 ```shell
 # change to your path
-export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-community-openjdk-17.0.8+7.1/Contents/Home
+export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-svm-java17-darwin-gluon-22.1.0.1-Final/Contents/Home
 export PATH=$GRAALVM_HOME/lib/installer/bin:$PATH
 export PATH=$GRAALVM_HOME/lib/svm/bin:$PATH
 
