@@ -12,16 +12,21 @@
   <properties>
     <java.compiler.version>17</java.compiler.version>
     <java.target.version>17</java.target.version>
-
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <javafx.version>21.0.1</javafx.version>
 
-    <logback.version>1.3.0-alpha14</logback.version>
+    <javafx.version>21.0.2</javafx.version>
+    <imageio.icns.version>3.9.4</imageio.icns.version>
+    <dd.plist.version>1.27</dd.plist.version>
+    <code.gson.version>2.10.1</code.gson.version>
+    <java.semver.version>0.10.2</java.semver.version>
     <junit.version>5.9.2</junit.version>
 
     <javafx.plugin.version>0.0.8</javafx.plugin.version>
-    <gluonfx.plugin.version>1.0.21</gluonfx.plugin.version>
+    <gluonfx.plugin.version>1.0.22</gluonfx.plugin.version>
 
+    <build.launch.name>${project.artifactId}</build.launch.name>
+    <build.launch.path>${project.build.directory}/libs/launch</build.launch.path>
+    <build.dependency.path>${project.build.directory}/libs/dependency</build.dependency.path>
     <runtime.image>runtime-image</runtime.image>
     <main.module>com.mytool.cleaner</main.module>
     <main.class>com.mytool.cleaner.CleanerApp</main.class>
@@ -32,41 +37,29 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-controls</artifactId>
-      <version>${javafx.version}</version>
-    </dependency>
     <!-- icons: BSD license, https://github.com/haraldk/TwelveMonkeys -->
     <dependency>
       <groupId>com.twelvemonkeys.imageio</groupId>
       <artifactId>imageio-icns</artifactId>
-      <version>3.9.4</version>
+      <version>${imageio.icns.version}</version>
     </dependency>
     <!-- plist: open source library without restriction, https://github.com/3breadt/dd-plist -->
     <dependency>
       <groupId>com.googlecode.plist</groupId>
       <artifactId>dd-plist</artifactId>
-      <version>1.27</version>
+      <version>${dd.plist.version}</version>
     </dependency>
     <!-- gson: Apache-2.0 license, https://github.com/google/gson -->
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.10.1</version>
+      <version>${code.gson.version}</version>
     </dependency>
     <!-- java-semver: MIT license, https://github.com/zafarkhaja/jsemver -->
     <dependency>
       <groupId>com.github.zafarkhaja</groupId>
       <artifactId>java-semver</artifactId>
-      <version>0.10.2</version>
-    </dependency>
-
-    <!-- 日志-->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>${logback.version}</version>
+      <version>${java.semver.version}</version>
     </dependency>
 
     <dependency>
@@ -96,22 +89,6 @@
         </configuration>
       </plugin>
 
-      <!-- 手动打包配置开始 -->
-      <!-- 主程序Jar入口 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
-        <configuration>
-          <outputDirectory>${project.build.directory}/libs/launch</outputDirectory>
-          <finalName>${project.name}</finalName>
-          <archive>
-            <manifest>
-              <mainClass>${main.class}</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
       <!-- 依赖Jar仓库 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -120,52 +97,71 @@
         <executions>
           <execution>
             <id>copy-dependencies</id>
-            <phase>prepare-package</phase>
+            <phase>compile</phase>
             <goals>
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/libs/javafx</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
+              <outputDirectory>${build.dependency.path}</outputDirectory>
+              <overWriteReleases>true</overWriteReleases>
               <overWriteSnapshots>true</overWriteSnapshots>
               <overWriteIfNewer>true</overWriteIfNewer>
               <includeScope>compile</includeScope>
               <includeScope>runtime</includeScope>
+              <useRepositoryLayout>false</useRepositoryLayout>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      <!-- 手动打包配置结束 -->
-
-      <!-- 使用了自动模块jar包，不能直接使用此插件打包，需要特殊处理jar包依赖后使用 -->
+      <!-- 运行convert脚本，转换非module的jar包 -->
       <plugin>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>${javafx.plugin.version}</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
         <executions>
           <execution>
-            <!-- Default configuration for running with: mvn clean javafx:run -->
-            <id>default-cli</id>
+            <id>convert</id>
+            <phase>compile</phase>
             <configuration>
-              <mainClass>${main.module}/${main.class}</mainClass>
-              <launcher>${app.launcher}</launcher>
-              <jlinkImageName>${runtime.image}</jlinkImageName>
-              <noManPages>true</noManPages>
-              <stripDebug>true</stripDebug>
-              <noHeaderFiles>true</noHeaderFiles>
+              <target>
+                <property name="convert-shell" value="${project.basedir}/shell/convert-module.sh"/>
+                <property name="java-home" value="${java.home}"/>
+                <property name="module-path" value="${build.dependency.path}"/>
+                <exec executable="bash">
+                  <arg value="${convert-shell}"/>
+                  <arg value="${java-home}"/>
+                  <arg value="${module-path}"/>
+                  <arg value="dd-plist-1.27.jar"/>
+                </exec>
+                <exec executable="bash">
+                  <arg value="${convert-shell}"/>
+                  <arg value="${java-home}"/>
+                  <arg value="${module-path}"/>
+                  <arg value="java-semver-0.10.2.jar"/>
+                </exec>
+              </target>
             </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
-
-      <!-- 打包native镜像 -->
+      <!-- 主程序Jar入口 -->
       <plugin>
-        <groupId>com.gluonhq</groupId>
-        <artifactId>gluonfx-maven-plugin</artifactId>
-        <version>${gluonfx.plugin.version}</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
         <configuration>
-          <target>host</target>
-          <mainClass>${main.module}/${main.class}</mainClass>
+          <outputDirectory>${build.launch.path}</outputDirectory>
+          <finalName>${build.launch.name}</finalName>
+          <archive>
+            <manifest>
+              <mainClass>${main.class}</mainClass>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>${build.dependency.path}</classpathPrefix>
+            </manifest>
+          </archive>
         </configuration>
       </plugin>
 
@@ -178,7 +174,158 @@
           <skip>true</skip>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
+
+  <profiles>
+    <!-- 默认使用OpenJDK编译和打包 -->
+    <profile>
+      <id>jfxRun</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-controls</artifactId>
+          <version>${javafx.version}</version>
+        </dependency>
+      </dependencies>
+    </profile>
+    <profile>
+      <id>jfxProvided</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-controls</artifactId>
+          <version>${javafx.version}</version>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+    <profile>
+      <!-- 使用 jlink 和 jpackage 打包裁切runtime -->
+      <!-- Requirement: OpenJDK17+ -->
+      <!-- ./mvnw clean package -->
+      <id>jpackage</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.8</version>
+            <executions>
+              <execution>
+                <id>jlink</id>
+                <phase>package</phase>
+                <configuration>
+                  <target>
+                    <property name="java-home" value="${java.home}"/>
+                    <property name="module-path" value="${build.launch.path}:${build.dependency.path}"/>
+                    <property name="main-module" value="${main.module}"/>
+                    <property name="main-class" value="${main.class}"/>
+                    <property name="runtime-image" value="${project.build.directory}/${runtime.image}"/>
+                    <property name="package-name" value="${project.artifactId}"/>
+                    <property name="package-out" value="${project.build.directory}"/>
+                    <property name="package-app" value="${project.artifactId}.app"/>
+                    <property name="package-dmg" value="${project.artifactId}.dmg"/>
+                    <!-- 运行 jlink 命令 -->
+                    <delete dir="${runtime-image}"/>
+                    <exec executable="${java-home}/bin/jlink">
+                      <arg value="--module-path"/>
+                      <arg value="${module-path}"/>
+                      <arg value="--add-modules"/>
+                      <arg value="${main-module}"/>
+                      <arg value="--output"/>
+                      <arg value="${runtime-image}"/>
+                      <arg value="--no-header-files"/>
+                      <arg value="--no-man-pages"/>
+                    </exec>
+                    <echo>"Execute jlink Success..."</echo>
+                    <delete dir="${package-out}/${package-name}.app"/>
+                    <delete dir="${package-out}/${package-name}.dmg"/>
+                    <exec executable="${java-home}/bin/jpackage">
+                      <arg value="--type"/>
+                      <!-- app-image 或者 dmg -->
+                      <arg value="app-image"/>
+                      <arg value="--name"/>
+                      <arg value="${package-name}"/>
+                      <arg value="--app-version"/>
+                      <arg value="1.0.1"/>
+                      <arg value="--module"/>
+                      <arg value="${main-module}/${main-class}"/>
+                      <arg value="--runtime-image"/>
+                      <arg value="${runtime-image}"/>
+                      <arg value="--dest"/>
+                      <arg value="${package-out}"/>
+                    </exec>
+                    <echo>"Execute jpackage Success..."</echo>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- 使用gluon打包native镜像，必须设置 GRAALVM_HOME 环境变量，Java可以使用OpenJDK，也可以使用GRAALVM_HOME -->
+      <!-- Requirement: [GraalVM CE Gluon 22.1.0.1-Final](https://github.com/gluonhq/graal/releases/tag/gluon-22.1.0.1-Final) -->
+      <!-- export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-svm-java17-darwin-gluon-22.1.0.1-Final/Contents/Home -->
+      <!-- export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-svm-java17-darwin-gluon-22.1.0.1-Final/Contents/Home -->
+      <!-- ./mvnw clean package -->
+      <!-- ./mvnw gluonfx:build -P gluon,jfxRun,!'jpackage',!'jfxProvided' -->
+      <!-- ./mvnw gluonfx:package -->
+      <id>gluon</id>
+      <repositories>
+        <repository>
+          <id>GluonFX</id>
+          <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+        </repository>
+      </repositories>
+      <dependencies>
+        <!-- Intel macOS下gluon不能使用非模块化jar包，这里复用常规package阶段更改后的模块化jar -->
+        <dependency>
+          <groupId>com.googlecode.plist</groupId>
+          <artifactId>dd-plist</artifactId>
+          <version>${dd.plist.version}</version>
+          <scope>system</scope>
+          <systemPath>${build.dependency.path}/dd-plist-1.27.jar</systemPath>
+        </dependency>
+        <dependency>
+          <groupId>com.github.zafarkhaja</groupId>
+          <artifactId>java-semver</artifactId>
+          <version>${java.semver.version}</version>
+          <scope>system</scope>
+          <systemPath>${build.dependency.path}/java-semver-0.10.2.jar</systemPath>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>gluonfx-maven-plugin</artifactId>
+            <version>${gluonfx.plugin.version}</version>
+            <executions>
+              <execution>
+                <phase>package</phase>
+              </execution>
+            </executions>
+            <configuration>
+              <target>host</target>
+              <mainClass>${main.module}/${main.class}</mainClass>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+
 </project>

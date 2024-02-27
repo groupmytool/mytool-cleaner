@@ -9,19 +9,17 @@ Mytool Cleaner is a software uninstallation auxiliary tool, which includes the f
 * OpenJDK17+
 * Maven3.8.x
 
-## Running by maven command
-```shell
-./mvnw clean compile javafx:run
+## Running
+Main class:
+```
+com.mytool.cleaner.CleanerApp.java
 ```
 
 ## Build
-Use build shell to resolve javafx-maven-plugin issue (convert non module jar to module jar):
 ```shell
-cd shell && ./build-jpackage.sh
+./mvnw clean package
 ```
-
-> Please note: When using the build script, you need to confirm whether the `JAVA_HOME` in the script is correct. 
-> If it is not correct, you need to modify it to the correct `JAVA_HOME`.
+output: `target/mytool-cleaner.app`
 
 # Other languages
 * [中文](./README.zh.md)

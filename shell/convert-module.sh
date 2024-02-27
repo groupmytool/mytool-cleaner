@@ -1,39 +1,48 @@
 #!/bin/bash
 
-JAR=$1
-echo "Converting $JAR to module"
+JDK_HOME=$1
+JAR_PATH=$2
+JAR_NAME=$3
+echo "Converting $JAR_NAME to module by $JDK_HOME ..."
 
-CONVERT_WORK_DIR=$(pwd)/..
-TARGET_DIR=$CONVERT_WORK_DIR/target
+# 判断$JAR_PATH/$JAR_NAME文件是否存在，不存在的话直接返回
+if [ ! -f "$JAR_PATH/$JAR_NAME" ]; then
+    echo "File $JAR_PATH/$JAR_NAME not found."
+    exit 1
+fi
 
-TEMP_DIR=$TARGET_DIR/temp
-
-mkdir -p $TEMP_DIR/work
-
-# 生成module-info文件
-jdeps --generate-module-info $TEMP_DIR/work $TARGET_DIR/libs/javafx/$JAR
-# 获取module名称
-MODULE=$(ls -l $TEMP_DIR/work | awk '{print $NF}' | grep -v 0)
+TEMP_DIR=$JAR_PATH/temp
 
 # 解压jar包，编译的时候需要
-mkdir $TEMP_DIR/classes
+mkdir -p $TEMP_DIR/classes
 cd $TEMP_DIR/classes
-jar xf $TARGET_DIR/libs/javafx/$JAR
+$JDK_HOME/bin/jar xf $JAR_PATH/$JAR_NAME
+
+# 判断 $TEMP_DIR/classes/module-info.class 文件是否存在，不存在直接返回
+if [ -f "$TEMP_DIR/classes/module-info.class" ]; then
+    echo "$JAR_PATH/$JAR_NAME is module jar!"
+    rm -rf $TEMP_DIR
+    exit 0
+fi
+
+# 生成module-info文件
+mkdir -p $TEMP_DIR/work
+$JDK_HOME/bin/jdeps --generate-module-info $TEMP_DIR/work $JAR_PATH/$JAR_NAME
+MODULE_NAME=$(ls -l $TEMP_DIR/work | awk '{print $NF}' | grep -v 0)
+
 # 编译module-info文件
-cd $TEMP_DIR/work/$MODULE
-javac -p $MODULE -d $TEMP_DIR/classes module-info.java
+cd $TEMP_DIR/work/$MODULE_NAME
+$JDK_HOME/bin/javac -p $MODULE_NAME -d $TEMP_DIR/classes module-info.java
 
 # 更新并生成新jar包
 mkdir -p $TEMP_DIR/out
 # 准备
-cp $TARGET_DIR/libs/javafx/$JAR $TEMP_DIR/out/$MODULE.jar
+cp $JAR_PATH/$JAR_NAME $TEMP_DIR/out/$MODULE_NAME.jar
 # 更新
-jar uf $TEMP_DIR/out/$MODULE.jar -C $TEMP_DIR/classes module-info.class
+$JDK_HOME/bin/jar uf $TEMP_DIR/out/$MODULE_NAME.jar -C $TEMP_DIR/classes module-info.class
 # 替换原jar包
-cp -rf $TEMP_DIR/out/$MODULE.jar $TARGET_DIR/libs/javafx/$JAR
-
-cd $CONVERT_WORK_DIR
+cp -rf $TEMP_DIR/out/$MODULE_NAME.jar $JAR_PATH/$JAR_NAME
 
 rm -rf $TEMP_DIR
 
-echo "Converting $JAR to module done."
+echo "Converted $JAR_NAME to module done."
